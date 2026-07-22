@@ -1,0 +1,56 @@
+<div class="page-banner">
+  <div class="container banner-inner">
+    <h1>News & Media</h1>
+    <div class="banner-breadcrumbs">
+      <a routerLink="/">Home</a>
+      <span class="separator">/</span>
+      <span class="current">News & Media</span>
+    </div>
+  </div>
+</div>
+
+<div class="container section">
+  <div class="section-header">
+    <span class="overline">Press Room</span>
+    <h2>Latest News & Announcements</h2>
+    <p>Stay informed with official corporate notices, media releases, government updates and project achievements.</p>
+  </div>
+
+  @if (loading()) {
+    <div class="page-loading">
+      <div class="spinner"></div>
+    </div>
+  } @else {
+    @if (newsItems().length === 0) {
+      <div class="govt-card empty-news">
+        <span class="material-icons-round">feed</span>
+        <h3>No News Found</h3>
+        <p>No press releases or announcements have been published recently.</p>
+      </div>
+    } @else {
+      <div class="news-list-grid">
+        @for (item of newsItems(); track item._id) {
+          <div class="news-card-wide govt-card animate-fade-in">
+            <div class="card-left">
+              <span class="category-badge">{{ item.category }}</span>
+              <div class="news-date">
+                <span class="material-icons-round">calendar_today</span>
+                <span>{{ item.createdAt | date:'dd MMMM yyyy' }}</span>
+              </div>
+            </div>
+            
+            <div class="card-right">
+              <h3>{{ item.title }}</h3>
+              <p class="excerpt">{{ item.excerpt }}</p>
+              
+              <div class="card-footer-row">
+                <span class="views"><span class="material-icons-round">visibility</span> {{ item.views }} Views</span>
+                <a [routerLink]="['/news', item._id]" class="read-btn">Read Full Article <span class="material-icons-round">arrow_forward</span></a>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

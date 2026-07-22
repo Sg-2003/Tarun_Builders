@@ -1,0 +1,50 @@
+<div class="login-wrapper">
+  <div class="tricolor-strip">
+    <span class="saffron"></span><span class="white"></span><span class="green"></span>
+  </div>
+  
+  <div class="login-container">
+    <div class="govt-card login-card animate-slide-up">
+      <div class="card-header">
+        <div class="logo-icon">
+          <svg width="44" height="44" viewBox="0 0 52 52">
+            <polygon points="26,4 50,46 2,46" fill="none" stroke="#C9A227" stroke-width="3" stroke-linejoin="round"/>
+            <polygon points="26,10 44,42 8,42" fill="#003580"/>
+            <circle cx="26" cy="5" r="3" fill="#C9A227"/>
+            <circle cx="50" cy="46" r="3" fill="#C9A227"/>
+            <circle cx="2" cy="46" r="3" fill="#C9A227"/>
+          </svg>
+        </div>
+        <h2>TARUN BUILDERS</h2>
+        <span class="portal-tag">Official Administrative Portal</span>
+        <div class="divider"></div>
+      </div>
+
+      <form (ngSubmit)="submitLogin()" class="login-form">
+        <div class="form-group">
+          <label><span class="material-icons-round">email</span> Email Address</label>
+          <input type="email" [(ngModel)]="loginForm.email" name="email" required class="form-input" placeholder="admin@tarunbuilders.in">
+        </div>
+
+        <div class="form-group">
+          <label><span class="material-icons-round">lock</span> Password</label>
+          <input type="password" [(ngModel)]="loginForm.password" name="password" required class="form-input" placeholder="••••••••">
+        </div>
+
+        @if (formError()) {
+          <div class="form-error-msg">
+            <span class="material-icons-round">error</span>
+            <span>{{ formError() }}</span>
+          </div>
+        }
+
+        <button type="submit" class="btn-primary login-btn" [disabled]="formSubmitting()">
+          @if (formSubmitting()) { <span>Logging in...</span> }
+          @else { <span>Sign In to Dashboard</span> }
+        </button>
+
+        <a routerLink="/" class="back-home-link"><span class="material-icons-round">arrow_back</span> Return to Public Website</a>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+// Government-style SCSS mixins
+
+@import 'variables';
+
+// Responsive breakpoints
+@mixin sm { @media (min-width: #{$bp-sm}) { @content; } }
+@mixin md { @media (min-width: #{$bp-md}) { @content; } }
+@mixin lg { @media (min-width: #{$bp-lg}) { @content; } }
+@mixin xl { @media (min-width: #{$bp-xl}) { @content; } }
+@mixin xxl { @media (min-width: #{$bp-2xl}) { @content; } }
+
+// Flexbox helpers
+@mixin flex-center { display: flex; align-items: center; justify-content: center; }
+@mixin flex-between { display: flex; align-items: center; justify-content: space-between; }
+@mixin flex-col { display: flex; flex-direction: column; }
+
+// Government section heading
+@mixin section-heading {
+  font-family: $font-heading;
+  font-size: $text-3xl;
+  font-weight: 700;
+  color: $primary-navy;
+  position: relative;
+  margin-bottom: $space-4;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, $gold, $primary-navy);
+    margin-top: $space-2;
+  }
+}
+
+// Gold underline accent
+@mixin gold-underline {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: $gold;
+  }
+}
+
+// Government card
+@mixin govt-card {
+  background: $white;
+  border: 1px solid $light-gray;
+  border-top: 3px solid $primary-navy;
+  border-radius: $radius-md;
+  padding: $space-6;
+  box-shadow: $shadow-sm;
+  transition: box-shadow $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-govt;
+  }
+}
+
+// Button styles
+@mixin btn-primary {
+  background: $primary-navy;
+  color: $white;
+  border: none;
+  padding: $space-3 $space-6;
+  font-family: $font-body;
+  font-size: $text-sm;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background $transition-fast;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: $radius-sm;
+
+  &:hover { background: $primary-navy-dark; }
+}
+
+@mixin btn-gold {
+  background: $gold;
+  color: $text-dark;
+  border: none;
+  padding: $space-3 $space-6;
+  font-family: $font-body;
+  font-size: $text-sm;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background $transition-fast;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: $radius-sm;
+
+  &:hover { background: $gold-dark; color: $white; }
+}
+
+// Truncate text
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

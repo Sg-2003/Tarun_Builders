@@ -1,0 +1,65 @@
+<div class="page-banner">
+  <div class="container banner-inner">
+    <h1>Right to Information (RTI)</h1>
+    <div class="banner-breadcrumbs">
+      <a routerLink="/">Home</a>
+      <span class="separator">/</span>
+      <span class="current">RTI Portal</span>
+    </div>
+  </div>
+</div>
+
+<div class="container section">
+  <div class="section-header">
+    <span class="overline">Transparency</span>
+    <h2>Right to Information Act, 2005</h2>
+    <p>In accordance with Section 4(1)(b) of the RTI Act, we maintain full transparency of our public operations, officer contact channels, and corporate policies.</p>
+  </div>
+
+  <div class="rti-grid">
+    <!-- Main Info -->
+    <div class="rti-main">
+      <div class="govt-card">
+        <h2>RTI Statutory Declaration</h2>
+        <div class="divider"></div>
+        <p>
+          Tarun Builders, being a Class-A Government Registered Contractor partnering on public-sector infrastructure contracts, is committed to transparency. We voluntarily declare contact channels for public audit, Grievance redressal, and information routing in compliance with standard government directives.
+        </p>
+
+        <h3 class="sub-heading">RTI Applications Submission</h3>
+        <p>
+          Citizens can submit applications under the RTI Act, 2005. A fee of Rs. 10/- (or as prescribed by rules) should be paid in the form of a Demand Draft / Postal Order drawn in favor of "Tarun Builders", payable at Mumbai, or online via public gateway transfers.
+        </p>
+      </div>
+
+      <div class="govt-card pio-container">
+        <h2>Designated Officers List</h2>
+        <div class="divider"></div>
+        <div class="pio-cards">
+          @for (o of officers; track o.name) {
+            <div class="pio-card">
+              <div class="pio-icon"><span class="material-icons-round">account_circle</span></div>
+              <div class="pio-meta">
+                <h3>{{ o.name }}</h3>
+                <span class="desig">{{ o.designation }}</span>
+                <span class="contact"><span class="material-icons-round">email</span> {{ o.email }}</span>
+                <span class="contact"><span class="material-icons-round">phone</span> {{ o.phone }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Downloads Sidebar -->
+    <div class="rti-sidebar">
+      <div class="govt-card download-box">
+        <h3>Statutory Downloads</h3>
+        <div class="divider"></div>
+        <a href="#" class="btn-primary doc-btn"><span class="material-icons-round">picture_as_pdf</span> Section 4(1)(b) Declaration</a>
+        <a href="#" class="btn-outline doc-btn"><span class="material-icons-round">picture_as_pdf</span> RTI Guide Booklet (PDF)</a>
+        <a href="#" class="btn-outline doc-btn"><span class="material-icons-round">picture_as_pdf</span> Grievance Redressal Form</a>
+      </div>
+    </div>
+  </div>
+</div>

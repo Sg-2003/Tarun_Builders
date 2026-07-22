@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: mongo:latest
+    container_name: tarun_builders_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://db:27017/tarun-builders
+      - JWT_SECRET=tarun_builders_govt_jwt_secret_2024_ultra_secure_key_xyz
+      - JWT_EXPIRE=7d
+      - JWT_REFRESH_SECRET=tarun_builders_refresh_token_secret_2024
+      - JWT_REFRESH_EXPIRE=30d
+      - CLIENT_URL=http://localhost:80
+    depends_on:
+      - db
+    restart: always
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    restart: always
+
+volumes:
+  mongo_data:

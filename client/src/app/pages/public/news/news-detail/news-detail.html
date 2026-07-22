@@ -1,0 +1,39 @@
+<div class="page-banner" *ngIf="newsItem()">
+  <div class="container banner-inner">
+    <h1>{{ newsItem().title }}</h1>
+    <div class="banner-breadcrumbs">
+      <a routerLink="/">Home</a>
+      <span class="separator">/</span>
+      <a routerLink="/news">News</a>
+      <span class="separator">/</span>
+      <span class="current">Details</span>
+    </div>
+  </div>
+</div>
+
+<div class="container section" *ngIf="!loading() && newsItem()">
+  <div class="news-detail-paper govt-card">
+    <div class="meta-header-row">
+      <span class="category-badge">{{ newsItem().category }}</span>
+      <div class="meta-info">
+        <span class="date"><span class="material-icons-round">calendar_today</span> {{ newsItem().createdAt | date:'dd MMMM yyyy' }}</span>
+        <span class="views"><span class="material-icons-round">visibility</span> {{ newsItem().views }} Views</span>
+      </div>
+    </div>
+
+    <h2 class="title">{{ newsItem().title }}</h2>
+    <div class="divider"></div>
+
+    <div class="article-content" [innerHTML]="newsItem().content"></div>
+
+    <div class="article-footer">
+      <button routerLink="/news" class="btn-outline"><span class="material-icons-round">arrow_back</span> Back to News Portal</button>
+    </div>
+  </div>
+</div>
+
+<div class="container section" *ngIf="loading()">
+  <div class="page-loading">
+    <div class="spinner"></div>
+  </div>
+</div>

@@ -1,0 +1,254 @@
+<div class="admin-gallery-panel">
+
+  <!-- ─── Header ───────────────────────────────────────────── -->
+  <div class="panel-header-row">
+    <div>
+      <h2>
+        <span class="material-icons-round">photo_library</span>
+        Manage Media Gallery
+      </h2>
+      <p class="subtitle">Upload, categorize and manage photos and videos of project sites.</p>
+    </div>
+    <button class="btn-primary" (click)="openAdd()">
+      <span class="material-icons-round">add_photo_alternate</span>
+      Add Media
+    </button>
+  </div>
+
+  <!-- ─── Stats Row ─────────────────────────────────────────── -->
+  <div class="admin-stats-row">
+    <div class="admin-stat">
+      <span class="stat-v">{{ galleryItems().length }}</span>
+      <span class="stat-l">Total Items</span>
+    </div>
+    <div class="admin-stat">
+      <span class="stat-v">{{ filteredItems.length }}</span>
+      <span class="stat-l">Showing</span>
+    </div>
+    <div class="admin-stat">
+      <span class="stat-v">{{ galleryItems().length - filteredItems.length }}</span>
+      <span class="stat-l">Hidden</span>
+    </div>
+  </div>
+
+
+
+  <!-- ─── Toolbar ───────────────────────────────────────────── -->
+  <div class="toolbar-row">
+    <div class="search-wrap">
+      <span class="material-icons-round">search</span>
+      <input
+        type="text"
+        placeholder="Search gallery..."
+        [(ngModel)]="searchVal"
+        (ngModelChange)="searchQ.set($event)"
+        class="search-input">
+    </div>
+    <div class="filter-tabs">
+      <button class="f-tab" [class.active]="filterCat() === ''" (click)="filterCat.set('')">All</button>
+      @for (cat of categories; track cat) {
+        <button class="f-tab" [class.active]="filterCat() === cat" (click)="filterCat.set(cat)">{{ cat }}</button>
+      }
+    </div>
+  </div>
+
+  <!-- ─── Loading ───────────────────────────────────────────── -->
+  @if (loading()) {
+    <div class="page-loading"><div class="spinner"></div></div>
+  } @else if (filteredItems.length === 0) {
+    <div class="govt-card empty-panel">
+      <span class="material-icons-round">photo_library</span>
+      <h3>No Gallery Items Found</h3>
+      <p>Add your first media item to get started.</p>
+      <button class="btn-primary" (click)="openAdd()">
+        <span class="material-icons-round">add</span> Add Media
+      </button>
+    </div>
+  } @else {
+    <!-- ─── Grid View ─────────────────────────────────────────── -->
+    <div class="admin-grid">
+      @for (item of filteredItems; track item._id) {
+        <div class="admin-card" [class.unpublished]="!item.isPublished">
+          <div class="card-img-wrap">
+            <img [src]="item.url" [alt]="item.title" loading="lazy" (error)="item.url='assets/images/logo-vector.png'">
+
+            <div class="card-actions-overlay">
+              <button class="icon-btn btn-edit" (click)="openEdit(item)" title="Edit">
+                <span class="material-icons-round">edit</span>
+              </button>
+              <button class="icon-btn btn-delete" (click)="confirmDelete(item._id)" title="Delete">
+                <span class="material-icons-round">delete</span>
+              </button>
+            </div>
+
+            <div class="card-badges">
+              <span class="cat-pill">{{ item.category }}</span>
+              @if (item.isFeatured) {
+                <span class="feat-pill"><span class="material-icons-round">star</span></span>
+              }
+              @if (!item.isPublished) {
+                <span class="draft-pill">Draft</span>
+              }
+            </div>
+          </div>
+
+          <div class="card-body">
+            <h4>{{ item.title }}</h4>
+            @if (item.caption) {
+              <p class="cap">{{ item.caption }}</p>
+            }
+            <div class="card-toggles">
+              <label class="toggle-wrap" title="Toggle Featured">
+                <span class="toggle-label">Featured</span>
+                <button
+                  class="toggle-btn"
+                  [class.on]="item.isFeatured"
+                  (click)="toggleFeatured(item)">
+                  <span class="material-icons-round">{{ item.isFeatured ? 'star' : 'star_border' }}</span>
+                </button>
+              </label>
+              <label class="toggle-wrap" title="Toggle Published">
+                <span class="toggle-label">Published</span>
+                <button
+                  class="toggle-btn"
+                  [class.on]="item.isPublished"
+                  (click)="togglePublished(item)">
+                  <span class="material-icons-round">{{ item.isPublished ? 'visibility' : 'visibility_off' }}</span>
+                </button>
+              </label>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<!-- ─── Add / Edit Form Modal ──────────────────────────────── -->
+@if (showForm()) {
+  <div class="modal-backdrop" (click)="closeForm()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ form._id ? 'Edit Media Item' : 'Add New Media' }}</h3>
+        <button class="modal-close" (click)="closeForm()">
+          <span class="material-icons-round">close</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-grid">
+
+          <!-- Preview pane -->
+          <div class="preview-pane">
+            @if (previewUrl()) {
+              <img [src]="previewUrl()" alt="Preview" class="preview-img" (error)="previewUrl.set('')">
+            } @else {
+              <div class="preview-placeholder">
+                <span class="material-icons-round">add_photo_alternate</span>
+                <span>Image preview</span>
+              </div>
+            }
+          </div>
+
+          <!-- Form fields -->
+          <div class="form-fields">
+
+            <div class="form-group">
+              <label>Title <span class="req">*</span></label>
+              <input type="text" [(ngModel)]="form.title" placeholder="e.g. Highway Paving Works" class="form-input">
+            </div>
+
+            <div class="form-group">
+              <label>Image URL <span class="req">*</span></label>
+              <input
+                type="url"
+                [(ngModel)]="form.url"
+                (ngModelChange)="onUrlChange()"
+                placeholder="https://..." class="form-input">
+              <small class="hint">Paste a direct image link. Preview will appear on the left.</small>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label>Category</label>
+                <select [(ngModel)]="form.category" class="form-input">
+                  @for (cat of categories; track cat) {
+                    <option [value]="cat">{{ cat }}</option>
+                  }
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Type</label>
+                <select [(ngModel)]="form.type" class="form-input">
+                  <option value="image">Image</option>
+                  <option value="video">Video</option>
+                  <option value="drone">Drone</option>
+                  <option value="360">360°</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Caption / Description</label>
+              <textarea [(ngModel)]="form.caption" rows="2" placeholder="Short description..." class="form-input"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Tags <span class="hint-inline">(comma separated)</span></label>
+              <input type="text" [(ngModel)]="form.tags" placeholder="bridge, nhp, 2024" class="form-input">
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label>Display Order</label>
+                <input type="number" [(ngModel)]="form.order" min="0" class="form-input">
+              </div>
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" [(ngModel)]="form.isFeatured">
+                  <span>Mark as Featured</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" [(ngModel)]="form.isPublished">
+                  <span>Published</span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-outline" (click)="closeForm()">Cancel</button>
+        <button
+          class="btn-primary"
+          (click)="saveItem()"
+          [disabled]="saving() || !form.title || !form.url">
+          @if (saving()) {
+            <div class="spinner-sm"></div>
+            Saving...
+          } @else {
+            <span class="material-icons-round">save</span>
+            {{ form._id ? 'Update Item' : 'Add Item' }}
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ─── Delete Confirm ─────────────────────────────────────── -->
+@if (deleteConfirmId()) {
+  <div class="modal-backdrop" (click)="cancelDelete()">
+    <div class="confirm-modal" (click)="$event.stopPropagation()">
+      <span class="material-icons-round danger-icon">delete_forever</span>
+      <h3>Delete Gallery Item?</h3>
+      <p>This action cannot be undone.</p>
+      <div class="confirm-actions">
+        <button class="btn-outline" (click)="cancelDelete()">Cancel</button>
+        <button class="btn-danger" (click)="deleteItem(deleteConfirmId()!)">Delete</button>
+      </div>
+    </div>
+  </div>
+}

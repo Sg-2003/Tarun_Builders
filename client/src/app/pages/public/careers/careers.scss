@@ -1,0 +1,200 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.page-banner {
+  background: linear-gradient(135deg, $primary-navy-dark 0%, $primary-navy 100%);
+  color: $white;
+  padding: $space-12 0 $space-8;
+  border-bottom: 4px solid $gold;
+
+  .banner-inner { @include flex-between; flex-wrap: wrap; gap: $space-4; }
+  h1 { font-size: $text-4xl; color: $white; font-family: $font-heading; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+
+  .banner-breadcrumbs {
+    display: flex; align-items: center; gap: $space-2; font-size: $text-sm;
+    a { color: rgba(255,255,255,0.7); text-decoration: none; &:hover { color: $gold; } }
+    .separator { color: rgba(255,255,255,0.4); }
+    .current { color: $gold; font-weight: 600; }
+  }
+}
+
+.career-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-8;
+  align-items: start;
+
+  @include lg {
+    grid-template-columns: 1.2fr 1fr;
+  }
+}
+
+// Jobs Column
+.jobs-column {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+}
+
+.job-card {
+  transition: all $transition-base;
+  border-left: 4px solid $primary-navy !important;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+
+  &.selected {
+    border-left-color: $gold !important;
+    background: rgba(201, 162, 39, 0.03);
+    box-shadow: $shadow-govt;
+  }
+}
+
+.job-header {
+  @include flex-between;
+  margin-bottom: $space-3;
+  
+  h3 { font-size: $text-lg; color: $primary-navy; }
+  .job-type-badge {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    color: $primary-navy; background: rgba(0, 53, 128, 0.08);
+    padding: 2px $space-3; border-radius: $radius-sm;
+  }
+}
+
+.job-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-4;
+  font-size: $text-xs;
+  color: $text-muted;
+  margin-bottom: $space-4;
+
+  span { display: flex; align-items: center; gap: $space-1; }
+  .material-icons-round { font-size: 16px; color: $gold-dark; }
+}
+
+.job-desc {
+  font-size: $text-sm;
+  color: $text-dark;
+  line-height: 1.6;
+  margin-bottom: $space-4;
+}
+
+.job-footer {
+  @include flex-between;
+  border-top: 1px dashed $light-gray;
+  padding-top: $space-3;
+
+  .deadline { font-size: $text-xs; color: $error; font-weight: 600; }
+  .apply-init-btn { padding: $space-2 $space-4; font-size: $text-xs; }
+}
+
+// Form Column
+.form-column {
+  position: sticky;
+  top: 90px;
+}
+
+.form-sticky-card {
+  border-top: 4px solid $primary-navy !important;
+}
+
+.no-selection-msg {
+  text-align: center;
+  padding: $space-12 0;
+
+  .material-icons-round { font-size: 64px; color: $medium-gray; margin-bottom: $space-4; }
+  h3 { color: $primary-navy; margin-bottom: $space-2; }
+  p { color: $text-muted; }
+}
+
+.apply-header {
+  h3 { font-size: $text-xs; font-weight: 600; color: $text-muted; text-transform: uppercase; margin-bottom: 2px; }
+  h4 { font-size: $text-lg; color: $primary-navy; font-family: $font-body; }
+  .dept-sub { font-size: $text-xs; color: $gold-dark; font-weight: 700; text-transform: uppercase; }
+}
+
+.divider { height: 1px; background: $light-gray; margin: $space-4 0; }
+
+.job-apply-form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  label {
+    display: block; font-size: $text-xs; font-weight: 700;
+    color: $primary-navy; text-transform: uppercase; margin-bottom: $space-1;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-4;
+}
+
+.form-input {
+  width: 100%; padding: $space-2 $space-3;
+  border: 1.5px solid $light-gray; border-radius: $radius-md;
+  font-family: $font-body; font-size: $text-sm; outline: none;
+  transition: border-color $transition-fast;
+  &:focus { border-color: $primary-navy; }
+}
+
+textarea.form-input { resize: vertical; }
+
+.file-upload-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.file-input-hidden {
+  position: absolute; width: 1px; height: 1px; opacity: 0;
+}
+
+.file-upload-label {
+  display: flex; align-items: center; justify-content: center; gap: $space-2;
+  border: 2px dashed $gold; border-radius: $radius-md;
+  padding: $space-3; cursor: pointer; background: rgba(201, 162, 39, 0.03);
+  transition: all $transition-fast;
+
+  .material-icons-round { color: $primary-navy; }
+  span { font-size: $text-xs; font-weight: 600; color: $primary-navy; }
+
+  &:hover { background: rgba(201, 162, 39, 0.08); border-color: $primary-navy; }
+}
+
+.form-error-msg {
+  display: flex; align-items: center; gap: $space-2;
+  background: rgba(198, 40, 40, 0.05); border: 1.5px solid $error;
+  padding: $space-3; border-radius: $radius-md;
+  color: $error; font-size: $text-xs; font-weight: 600;
+}
+
+.action-row {
+  display: grid; grid-template-columns: 1fr 2fr; gap: $space-3;
+  margin-top: $space-2;
+}
+
+.submit-btn { width: 100%; font-size: $text-xs; }
+.cancel-btn { width: 100%; font-size: $text-xs; text-align: center; }
+
+.form-success {
+  text-align: center; padding: $space-10 0;
+  .material-icons-round { font-size: 48px; color: $success; margin-bottom: $space-4; display: block; }
+  h3 { color: $success; margin-bottom: $space-2; }
+  p { color: $text-muted; margin-bottom: $space-6; }
+  .btn-outline { font-size: $text-xs; }
+}
+
+.empty-jobs {
+  text-align: center;
+  padding: $space-12 !important;
+
+  .material-icons-round { font-size: 64px; color: $medium-gray; margin-bottom: $space-4; }
+  h3 { color: $primary-navy; margin-bottom: $space-2; }
+  p { color: $text-muted; }
+}

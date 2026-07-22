@@ -1,0 +1,138 @@
+<div class="page-banner">
+  <div class="container banner-inner">
+    <h1>Career Portal</h1>
+    <div class="banner-breadcrumbs">
+      <a routerLink="/">Home</a>
+      <span class="separator">/</span>
+      <span class="current">Careers</span>
+    </div>
+  </div>
+</div>
+
+<div class="container section">
+  <div class="section-header">
+    <span class="overline">Join Our Team</span>
+    <h2>Career Opportunities</h2>
+    <p>Build your professional future with Tarun Builders. Explore our active technical and administrative openings.</p>
+  </div>
+
+  <div class="career-layout">
+    <!-- Jobs List -->
+    <div class="jobs-column">
+      @if (loading()) {
+        <div class="page-loading">
+          <div class="spinner"></div>
+        </div>
+      } @else {
+        @if (jobs().length === 0) {
+          <div class="govt-card empty-jobs">
+            <span class="material-icons-round">work_off</span>
+            <h3>No Current Openings</h3>
+            <p>We do not have any open positions at the moment. Please check back later or send your CV to hr&#64;tarunbuilders.in.</p>
+          </div>
+        } @else {
+          @for (job of jobs(); track job._id) {
+            <div class="job-card govt-card" [class.selected]="selectedJob()?._id === job._id">
+              <div class="job-header">
+                <h3>{{ job.title }}</h3>
+                <span class="job-type-badge">{{ job.type }}</span>
+              </div>
+              
+              <div class="job-meta">
+                <span><span class="material-icons-round">folder</span> {{ job.department }}</span>
+                <span><span class="material-icons-round">location_on</span> {{ job.location }}</span>
+                <span><span class="material-icons-round">history</span> Exp: {{ job.experience }}</span>
+              </div>
+
+              <p class="job-desc">{{ job.description }}</p>
+              
+              <div class="job-footer">
+                <span class="deadline">Deadline: {{ job.lastDate | date:'dd MMM yyyy' }}</span>
+                <button class="btn-primary apply-init-btn" (click)="selectJob(job)">Apply Now</button>
+              </div>
+            </div>
+          }
+        }
+      }
+    </div>
+
+    <!-- Application Form -->
+    <div class="form-column">
+      <div class="govt-card form-sticky-card">
+        @if (!selectedJob()) {
+          <div class="no-selection-msg">
+            <span class="material-icons-round">touch_app</span>
+            <h3>Select a Position</h3>
+            <p>Please select an open position from the listings to apply online.</p>
+          </div>
+        } @else {
+          <div class="apply-header">
+            <h3>Applying for:</h3>
+            <h4>{{ selectedJob().title }}</h4>
+            <span class="dept-sub">{{ selectedJob().department }}</span>
+          </div>
+          
+          <div class="divider"></div>
+
+          @if (formSuccess()) {
+            <div class="form-success">
+              <span class="material-icons-round">check_circle</span>
+              <h3>Application Submitted!</h3>
+              <p>Thank you for applying. Our HR division will review your profile and get in touch.</p>
+              <button class="btn-outline" (click)="selectedJob.set(null)">Clear Selection</button>
+            </div>
+          } @else {
+            <form (ngSubmit)="submitApplication()" class="job-apply-form">
+              <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" [(ngModel)]="applicationForm.name" name="name" required class="form-input" placeholder="Your Full Name">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Email Address *</label>
+                  <input type="email" [(ngModel)]="applicationForm.email" name="email" required class="form-input" placeholder="yourname@domain.com">
+                </div>
+                <div class="form-group">
+                  <label>Phone Number</label>
+                  <input type="tel" [(ngModel)]="applicationForm.phone" name="phone" class="form-input" placeholder="10-digit Mobile">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Resume / CV (PDF/DOC) *</label>
+                <div class="file-upload-wrap">
+                  <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" required class="file-input-hidden" id="resumeFile">
+                  <label for="resumeFile" class="file-upload-label">
+                    <span class="material-icons-round">cloud_upload</span>
+                    <span>{{ resumeFile ? resumeFile.name : 'Upload File (Max 5MB)' }}</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Cover Letter / Summary</label>
+                <textarea [(ngModel)]="applicationForm.coverLetter" name="coverLetter" rows="4" class="form-input" placeholder="Brief summary of your suitability..."></textarea>
+              </div>
+
+              @if (formError()) {
+                <div class="form-error-msg">
+                  <span class="material-icons-round">error</span>
+                  <span>{{ formError() }}</span>
+                </div>
+              }
+
+              <div class="action-row">
+                <button type="button" class="btn-outline cancel-btn" (click)="selectedJob.set(null)">Cancel</button>
+                <button type="submit" class="btn-primary submit-btn" [disabled]="formSubmitting()">
+                  @if (formSubmitting()) { <span>Submitting...</span> }
+                  @else { <span>Submit Application</span> }
+                </button>
+              </div>
+            </form>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>

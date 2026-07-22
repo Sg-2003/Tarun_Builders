@@ -1,0 +1,112 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.panel-header-row {
+  @include flex-between;
+  margin-bottom: $space-8;
+
+  h2 { font-size: $text-2xl; color: $primary-navy; font-family: $font-heading; }
+  .subtitle { font-size: $text-sm; color: $text-muted; }
+  .add-btn { display: inline-flex; align-items: center; gap: $space-2; font-size: $text-xs; }
+}
+
+.table-container {
+  padding: 0 !important;
+  overflow-x: auto;
+}
+
+.progress-cell {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  font-size: $text-xs;
+  font-weight: 600;
+
+  .progress-bar-wrap {
+    width: 80px; height: 6px; background: $light-gray; border-radius: 3px; overflow: hidden;
+  }
+  .progress-fill-bar {
+    height: 100%; background: linear-gradient(90deg, $primary-navy, $gold);
+  }
+}
+
+.action-buttons {
+  display: flex; gap: $space-2;
+}
+
+.icon-btn {
+  background: transparent; border: none; cursor: pointer;
+  width: 32px; height: 32px; border-radius: $radius-sm;
+  @include flex-center;
+  transition: all $transition-fast;
+
+  .material-icons-round { font-size: 18px; }
+
+  &.edit-btn {
+    color: $primary-navy;
+    &:hover { background: rgba(0, 53, 128, 0.08); }
+  }
+
+  &.delete-btn {
+    color: $error;
+    &:hover { background: rgba(198, 40, 40, 0.08); }
+  }
+}
+
+// Modal
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100;
+  backdrop-filter: blur(2px);
+}
+
+.modal-container {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 90%; max-width: 650px; max-height: 90vh; overflow-y: auto;
+  z-index: 101; background: $white; padding: $space-6 !important;
+  box-shadow: $shadow-xl !important;
+  border-top-color: $gold !important;
+}
+
+.modal-header {
+  @include flex-between;
+  margin-bottom: $space-2;
+
+  h3 { font-size: $text-lg; color: $primary-navy; font-family: $font-heading; }
+  .close-btn { background: none; border: none; cursor: pointer; color: $medium-gray; &:hover { color: $error; } }
+}
+
+.divider { height: 1px; background: $light-gray; margin-bottom: $space-4; }
+
+.modal-form {
+  display: flex; flex-direction: column; gap: $space-4;
+
+  label {
+    display: block; font-size: $text-xs; font-weight: 700;
+    color: $primary-navy; text-transform: uppercase; margin-bottom: $space-1;
+  }
+}
+
+.form-row {
+  display: grid; grid-template-columns: 1fr; gap: $space-4;
+  @include md { grid-template-columns: 1fr 1fr; }
+}
+
+.form-input, .form-select {
+  width: 100%; padding: $space-2 $space-3;
+  border: 1.5px solid $light-gray; border-radius: $radius-md;
+  font-family: $font-body; font-size: $text-sm; outline: none;
+  background: $white;
+  transition: border-color $transition-fast;
+  &:focus { border-color: $primary-navy; }
+}
+
+textarea.form-input { resize: vertical; }
+
+.modal-footer {
+  @include flex-between;
+  border-top: 1px solid $light-gray;
+  padding-top: $space-4;
+  margin-top: $space-2;
+  
+  .btn-outline, .btn-primary { font-size: $text-xs; }
+}

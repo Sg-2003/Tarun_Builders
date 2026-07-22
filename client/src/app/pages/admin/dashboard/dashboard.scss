@@ -1,0 +1,80 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.dashboard-header-row {
+  @include flex-between;
+  margin-bottom: $space-8;
+
+  h2 { font-size: $text-2xl; color: $primary-navy; font-family: $font-heading; }
+  .subtitle { font-size: $text-sm; color: $text-muted; }
+  .refresh-btn { display: inline-flex; align-items: center; gap: $space-2; font-size: $text-xs; }
+}
+
+.stats-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+  margin-bottom: $space-8;
+
+  @include sm { grid-template-columns: repeat(2, 1fr); }
+  @include xl { grid-template-columns: repeat(4, 1fr); }
+}
+
+.stat-box {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  padding: $space-5 !important;
+  
+  &.border-navy { border-top-color: $primary-navy !important; }
+  &.border-green { border-top-color: $tricolor-green !important; }
+  &.border-blue { border-top-color: $info !important; }
+  &.border-gold { border-top-color: $gold !important; }
+}
+
+.stat-icon-wrapper {
+  width: 48px; height: 48px;
+  border-radius: $radius-md;
+  @include flex-center;
+  color: $white;
+
+  .material-icons-round { font-size: 24px; }
+  &.bg-navy { background: $primary-navy; }
+  &.bg-green { background: $tricolor-green; }
+  &.bg-blue { background: $info; }
+  &.bg-gold { background: $gold-dark; }
+}
+
+.stat-val-block {
+  h3 { font-size: $text-2xl; color: $primary-navy; font-family: $font-heading; line-height: 1.1; }
+  span { font-size: $text-xs; color: $text-muted; font-weight: 600; text-transform: uppercase; }
+}
+
+// Logs Grid
+.dashboard-logs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-8;
+
+  @include xl { grid-template-columns: 1fr 1fr; }
+}
+
+.log-card {
+  padding: $space-6 !important;
+  border-top-color: $primary-navy !important;
+
+  .card-title-row {
+    @include flex-between;
+    margin-bottom: $space-3;
+    
+    h3 { font-size: $text-base; color: $primary-navy; font-family: $font-body; }
+    .view-link { font-size: $text-xs; font-weight: 700; color: $gold-dark; text-decoration: none; &:hover { color: $primary-navy; } }
+  }
+
+  .divider { height: 1px; background: $light-gray; margin-bottom: $space-4; }
+}
+
+.govt-table {
+  th, td { padding: $space-3; }
+  .badge { font-size: 10px; }
+}

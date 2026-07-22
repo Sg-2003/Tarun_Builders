@@ -1,0 +1,35 @@
+<div class="admin-news-panel">
+  <div class="panel-header-row">
+    <div>
+      <h2>Manage Announcements</h2>
+      <p class="subtitle">Publish and update news, award notices and government releases.</p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="page-loading">
+      <div class="spinner"></div>
+    </div>
+  } @else {
+    <div class="table-container govt-card">
+      <table class="govt-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Date Published</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (n of newsItems(); track n._id) {
+            <tr>
+              <td><strong>{{ n.title }}</strong></td>
+              <td><span class="badge badge-new">{{ n.category }}</span></td>
+              <td>{{ n.createdAt | date:'dd MMM yyyy' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

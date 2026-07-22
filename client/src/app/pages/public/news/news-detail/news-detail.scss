@@ -1,0 +1,97 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+.page-banner {
+  background: linear-gradient(135deg, $primary-navy-dark 0%, $primary-navy 100%);
+  color: $white;
+  padding: $space-12 0 $space-8;
+  border-bottom: 4px solid $gold;
+
+  .banner-inner { @include flex-between; flex-wrap: wrap; gap: $space-4; }
+  h1 { font-size: $text-4xl; color: $white; font-family: $font-heading; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+
+  .banner-breadcrumbs {
+    display: flex; align-items: center; gap: $space-2; font-size: $text-sm;
+    a { color: rgba(255,255,255,0.7); text-decoration: none; &:hover { color: $gold; } }
+    .separator { color: rgba(255,255,255,0.4); }
+    .current { color: $gold; font-weight: 600; }
+  }
+}
+
+.news-detail-paper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $space-8;
+  border-top: 5px solid $primary-navy !important;
+
+  @include md {
+    padding: $space-12;
+  }
+}
+
+.meta-header-row {
+  @include flex-between;
+  flex-wrap: wrap;
+  gap: $space-3;
+  margin-bottom: $space-6;
+
+  .category-badge {
+    background: $primary-navy;
+    color: $white;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2px $space-3;
+    border-radius: $radius-sm;
+  }
+
+  .meta-info {
+    display: flex;
+    gap: $space-4;
+    font-size: $text-xs;
+    color: $text-muted;
+
+    span { display: flex; align-items: center; gap: $space-1; }
+    .material-icons-round { color: $gold-dark; font-size: 14px; }
+  }
+}
+
+.title {
+  font-size: clamp($text-2xl, 4vw, $text-3xl);
+  color: $primary-navy;
+  margin-bottom: $space-3;
+  line-height: 1.3;
+  font-family: $font-heading;
+}
+
+.divider {
+  height: 2px;
+  background: $gold;
+  width: 70px;
+  margin-bottom: $space-8;
+}
+
+.article-content {
+  font-size: $text-base;
+  color: $text-dark;
+  line-height: 1.8;
+
+  p {
+    margin-bottom: $space-5;
+    text-align: justify;
+  }
+}
+
+.article-footer {
+  margin-top: $space-10;
+  border-top: 1px dashed $light-gray;
+  padding-top: $space-6;
+  
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+    font-size: $text-xs;
+  }
+}

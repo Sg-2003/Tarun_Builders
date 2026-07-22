@@ -1,0 +1,90 @@
+// Government color palette and design tokens
+$primary-navy: #003580;
+$primary-navy-dark: #002060;
+$primary-navy-light: #0047A8;
+$gold: #C9A227;
+$gold-light: #E6BC45;
+$gold-dark: #A67F10;
+$white: #FFFFFF;
+$off-white: #F5F5F5;
+$light-gray: #E8E8E8;
+$medium-gray: #B0B0B0;
+$dark-gray: #444444;
+$text-dark: #1A1A2E;
+$text-muted: #6B7280;
+$success: #2E7D32;
+$warning: #E65100;
+$error: #C62828;
+$info: #01579B;
+
+// Indian tricolor
+$saffron: #FF9933;
+$tricolor-white: #FFFFFF;
+$tricolor-green: #138808;
+$chakra-blue: #000080;
+
+// Dark mode
+$dark-bg: #0D1421;
+$dark-surface: #1A2332;
+$dark-border: #2D3F55;
+
+// Typography
+$font-heading: 'Merriweather', 'Georgia', serif;
+$font-body: 'Open Sans', 'Roboto', sans-serif;
+$font-mono: 'Courier New', monospace;
+
+// Font sizes
+$text-xs: 0.75rem;
+$text-sm: 0.875rem;
+$text-base: 1rem;
+$text-lg: 1.125rem;
+$text-xl: 1.25rem;
+$text-2xl: 1.5rem;
+$text-3xl: 1.875rem;
+$text-4xl: 2.25rem;
+$text-5xl: 3rem;
+
+// Spacing
+$space-1: 0.25rem;
+$space-2: 0.5rem;
+$space-3: 0.75rem;
+$space-4: 1rem;
+$space-5: 1.25rem;
+$space-6: 1.5rem;
+$space-8: 2rem;
+$space-10: 2.5rem;
+$space-12: 3rem;
+$space-16: 4rem;
+$space-20: 5rem;
+
+// Border radius
+$radius-sm: 2px;
+$radius-md: 4px;
+$radius-lg: 8px;
+$radius-xl: 12px;
+$radius-full: 9999px;
+
+// Shadows
+$shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+$shadow-md: 0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+$shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+$shadow-xl: 0 20px 50px rgba(0,0,0,0.2);
+$shadow-govt: 0 2px 8px rgba(0,53,128,0.2);
+
+// Z-index
+$z-dropdown: 100;
+$z-sticky: 200;
+$z-modal: 300;
+$z-toast: 400;
+
+// Breakpoints
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+$bp-2xl: 1536px;
+
+// Transitions
+$transition-fast: 150ms ease;
+$transition-base: 250ms ease;
+$transition-slow: 400ms ease;

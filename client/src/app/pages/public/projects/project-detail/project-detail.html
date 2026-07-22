@@ -1,0 +1,153 @@
+<div class="page-banner" *ngIf="project()">
+  <div class="container banner-inner">
+    <h1>{{ project().title }}</h1>
+    <div class="banner-breadcrumbs">
+      <a routerLink="/">Home</a>
+      <span class="separator">/</span>
+      <a routerLink="/projects">Projects</a>
+      <span class="separator">/</span>
+      <span class="current">{{ project().title }}</span>
+    </div>
+  </div>
+</div>
+
+<div class="container section" *ngIf="!loading() && project()">
+  <div class="detail-grid">
+    <!-- Main Content -->
+    <div class="detail-main">
+      <!-- Image Gallery Carousel / Single Display -->
+      <div class="govt-card gallery-container">
+        @if (project().images?.length) {
+          <img [src]="project().images[0].url" [alt]="project().title" class="main-project-img">
+        } @else {
+          <div class="project-placeholder">
+            <span class="material-icons-round">domain</span>
+            <p>No project images uploaded yet</p>
+          </div>
+        }
+      </div>
+
+      <!-- Scope / Description -->
+      <div class="govt-card desc-container">
+        <h2>Project Scope & Description</h2>
+        <div class="divider"></div>
+        <p class="description-text">{{ project().description }}</p>
+        
+        <h3 class="features-heading">Key Project Features</h3>
+        <ul class="features-list">
+          @for (f of project().features; track f) {
+            <li>
+              <span class="material-icons-round check-icon">verified</span>
+              <span>{{ f }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Government Compliance Details -->
+      <div class="govt-card compliance-container">
+        <h2>Compliance & Work Order Parameters</h2>
+        <div class="divider"></div>
+        <table class="govt-table compliance-table">
+          <tr>
+            <td><strong>Government Order No.</strong></td>
+            <td>{{ project().governmentOrderNo || 'N/A' }}</td>
+          </tr>
+          <tr>
+            <td><strong>Tender Reference No.</strong></td>
+            <td>{{ project().tenderNo || 'N/A' }}</td>
+          </tr>
+          <tr>
+            <td><strong>Principal Client</strong></td>
+            <td>{{ project().clientName || 'N/A' }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Sidebar Dashboard -->
+    <div class="detail-sidebar">
+      <!-- Status Dashboard -->
+      <div class="govt-card status-card">
+        <h3>Project Status</h3>
+        <div class="divider"></div>
+        
+        <div class="status-badge-row">
+          <span class="badge" [class]="'badge-' + project().status.toLowerCase()">{{ project().status }}</span>
+        </div>
+
+        @if (project().progress !== undefined) {
+          <div class="progress-box">
+            <div class="progress-label-row">
+              <span>Overall Progress</span>
+              <strong>{{ project().progress }}%</strong>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" [style.width.%]="project().progress"></div></div>
+          </div>
+        }
+
+        <ul class="meta-list">
+          <li>
+            <span class="material-icons-round">payments</span>
+            <div>
+              <span>Project Budget</span>
+              <strong>{{ project().budget || 'N/A' }}</strong>
+            </div>
+          </li>
+          <li>
+            <span class="material-icons-round">calendar_today</span>
+            <div>
+              <span>Commencement Date</span>
+              <strong>{{ project().startDate | date:'dd MMM yyyy' }}</strong>
+            </div>
+          </li>
+          <li>
+            <span class="material-icons-round">event_available</span>
+            <div>
+              <span>Completion Target</span>
+              <strong>
+                @if (project().status === 'Completed') {
+                  {{ project().completionDate | date:'dd MMM yyyy' }}
+                } @else {
+                  {{ project().expectedEndDate | date:'dd MMM yyyy' }}
+                }
+              </strong>
+            </div>
+          </li>
+          <li>
+            <span class="material-icons-round">square_foot</span>
+            <div>
+              <span>Scale / Dimension</span>
+              <strong>{{ project().area || 'N/A' }}</strong>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Officer in Charge / Engineer -->
+      <div class="govt-card engineer-card" *ngIf="project().engineer">
+        <h3>Officer In Charge</h3>
+        <div class="divider"></div>
+        <div class="engineer-profile">
+          <div class="engineer-avatar">
+            @if (project().engineer.avatar) {
+              <img [src]="project().engineer.avatar" [alt]="project().engineer.name">
+            } @else {
+              <span class="material-icons-round">account_circle</span>
+            }
+          </div>
+          <div class="engineer-meta">
+            <h4>{{ project().engineer.name }}</h4>
+            <p>{{ project().engineer.designation }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container section" *ngIf="loading()">
+  <div class="page-loading">
+    <div class="spinner"></div>
+  </div>
+</div>

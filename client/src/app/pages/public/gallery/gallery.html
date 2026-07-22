@@ -1,0 +1,173 @@
+<!-- ─── Page Banner ─────────────────────────────────────────── -->
+<div class="page-banner">
+  <div class="banner-bg-pattern"></div>
+  <div class="container banner-inner">
+    <div>
+      <p class="banner-overline">
+        <span class="material-icons-round">photo_library</span>
+        Media &amp; Photos
+      </p>
+      <h1>Media Gallery</h1>
+      <p class="banner-desc">A visual showcase of our structural milestones, engineering teams, and official events.</p>
+    </div>
+    <div class="banner-breadcrumbs">
+      <a routerLink="/">Home</a>
+      <span class="material-icons-round sep">chevron_right</span>
+      <span class="current">Gallery</span>
+    </div>
+  </div>
+  <div class="tricolor-bar"></div>
+</div>
+
+<!-- ─── Stats Row ──────────────────────────────────────────── -->
+<div class="stats-strip section-alt">
+  <div class="container stats-row">
+    <div class="stat-item">
+      <span class="stat-num">{{ galleryItems().length }}</span>
+      <span class="stat-label">Media Items</span>
+    </div>
+    @for (cat of categories; track cat) {
+      @if (getCategoryCount(cat) > 0) {
+        <div class="stat-item">
+          <span class="stat-num">{{ getCategoryCount(cat) }}</span>
+          <span class="stat-label">{{ cat }}</span>
+        </div>
+      }
+    }
+  </div>
+</div>
+
+<!-- ─── Gallery Section ────────────────────────────────────── -->
+<div class="container section">
+  <div class="section-header">
+    <span class="overline">Our Construction Footprints</span>
+    <h2>Visual Milestones</h2>
+    <p>Browse through our photographic record of projects, events, and team moments.</p>
+  </div>
+
+  <!-- Category Filter Bar -->
+  <div class="filter-bar">
+    <button
+      class="filter-btn"
+      [class.active]="selectedCategory() === ''"
+      (click)="filterCategory('')">
+      <span class="material-icons-round">grid_view</span>
+      All Media
+      <span class="count-badge">{{ galleryItems().length }}</span>
+    </button>
+    @for (cat of categories; track cat) {
+      @if (getCategoryCount(cat) > 0) {
+        <button
+          class="filter-btn"
+          [class.active]="selectedCategory() === cat"
+          (click)="filterCategory(cat)">
+          {{ cat }}
+          <span class="count-badge">{{ getCategoryCount(cat) }}</span>
+        </button>
+      }
+    }
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="page-loading">
+      <div class="spinner"></div>
+    </div>
+  } @else if (filteredItems().length === 0) {
+    <!-- Empty State -->
+    <div class="empty-state govt-card">
+      <span class="material-icons-round">photo_library</span>
+      <h3>No Media Found</h3>
+      <p>No items have been uploaded in this category yet.</p>
+      <button class="btn-primary" (click)="filterCategory('')">View All</button>
+    </div>
+  } @else {
+    <!-- Masonry Grid -->
+    <div class="gallery-grid">
+      @for (item of filteredItems(); track item._id; let i = $index) {
+        <div
+          class="gallery-card animate-fade-in"
+          [class.card-tall]="i % 5 === 0 || i % 5 === 3"
+          (click)="openLightbox(i)"
+          role="button"
+          [attr.aria-label]="'View ' + item.title">
+          <div class="img-wrapper">
+            <img
+              [src]="item.url"
+              [alt]="item.title"
+              loading="lazy"
+              (error)="item.url = 'assets/images/logo-vector.png'">
+            <div class="card-overlay">
+              <div class="overlay-content">
+                <span class="material-icons-round zoom-icon">zoom_in</span>
+                <span class="overlay-title">{{ item.title }}</span>
+              </div>
+            </div>
+            <div class="cat-ribbon">{{ item.category }}</div>
+            @if (item.isFeatured) {
+              <div class="featured-badge">
+                <span class="material-icons-round">star</span>
+              </div>
+            }
+          </div>
+          <div class="card-footer">
+            <h3>{{ item.title }}</h3>
+            @if (item.caption) {
+              <p class="caption">{{ item.caption }}</p>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<!-- ─── Lightbox ────────────────────────────────────────────── -->
+@if (lightboxOpen() && currentItem()) {
+  <div class="lightbox-backdrop" (click)="closeLightbox()">
+    <div class="lightbox-panel" (click)="$event.stopPropagation()">
+      <!-- Close -->
+      <button class="lb-close" (click)="closeLightbox()" aria-label="Close">
+        <span class="material-icons-round">close</span>
+      </button>
+
+      <!-- Navigation -->
+      <button class="lb-nav lb-prev" (click)="prevImage()" aria-label="Previous">
+        <span class="material-icons-round">chevron_left</span>
+      </button>
+      <button class="lb-nav lb-next" (click)="nextImage()" aria-label="Next">
+        <span class="material-icons-round">chevron_right</span>
+      </button>
+
+      <!-- Image -->
+      <div class="lb-image-wrap">
+        <img [src]="currentItem().url" [alt]="currentItem().title" class="lb-image">
+      </div>
+
+      <!-- Caption -->
+      <div class="lb-caption">
+        <div class="lb-meta">
+          <span class="lb-cat-tag">{{ currentItem().category }}</span>
+          <span class="lb-counter">{{ lightboxIndex() + 1 }} / {{ filteredItems().length }}</span>
+        </div>
+        <h3>{{ currentItem().title }}</h3>
+        @if (currentItem().caption) {
+          <p>{{ currentItem().caption }}</p>
+        }
+      </div>
+
+      <!-- Thumbnails Strip -->
+      <div class="lb-thumbs">
+        @for (item of filteredItems(); track item._id; let i = $index) {
+          <div
+            class="lb-thumb"
+            [class.active]="i === lightboxIndex()"
+            (click)="lightboxIndex.set(i)"
+            role="button">
+            <img [src]="item.url" [alt]="item.title" loading="lazy">
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

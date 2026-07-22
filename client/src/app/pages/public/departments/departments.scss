@@ -1,0 +1,107 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.page-banner {
+  background: linear-gradient(135deg, $primary-navy-dark 0%, $primary-navy 100%);
+  color: $white;
+  padding: $space-12 0 $space-8;
+  border-bottom: 4px solid $gold;
+
+  .banner-inner { @include flex-between; flex-wrap: wrap; gap: $space-4; }
+  h1 { font-size: $text-4xl; color: $white; font-family: $font-heading; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+
+  .banner-breadcrumbs {
+    display: flex; align-items: center; gap: $space-2; font-size: $text-sm;
+    a { color: rgba(255,255,255,0.7); text-decoration: none; &:hover { color: $gold; } }
+    .separator { color: rgba(255,255,255,0.4); }
+    .current { color: $gold; font-weight: 600; }
+  }
+}
+
+.dept-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include md { grid-template-columns: repeat(2, 1fr); }
+}
+
+.dept-card {
+  @include govt-card;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dept-header {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  margin-bottom: $space-4;
+
+  .dept-icon-box {
+    width: 52px; height: 52px;
+    border-radius: $radius-md;
+    @include flex-center;
+    .material-icons-round { color: $white; font-size: 26px; }
+  }
+
+  h3 { font-size: $text-lg; color: $primary-navy; margin: 0; }
+  .dept-code { font-size: $text-xs; font-weight: 700; color: $text-muted; }
+}
+
+.dept-desc {
+  font-size: $text-sm;
+  color: $text-dark;
+  line-height: 1.6;
+  margin-bottom: $space-5;
+}
+
+.services-list-box {
+  margin-bottom: $space-6;
+  flex-grow: 1;
+
+  h4 { font-size: $text-sm; color: $primary-navy; margin-bottom: $space-2; }
+}
+
+.responsibility-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    font-size: $text-xs;
+    color: $text-muted;
+
+    .material-icons-round { font-size: 16px; color: $gold-dark; }
+  }
+}
+
+.dept-head-box {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding-top: $space-4;
+  border-top: 1px dashed $light-gray;
+
+  .head-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: $light-gray;
+    @include flex-center;
+    color: $primary-navy;
+    .material-icons-round { font-size: 32px; }
+  }
+
+  .head-meta {
+    display: flex;
+    flex-direction: column;
+    h5 { font-size: $text-sm; color: $primary-navy; margin: 0 0 2px; }
+    p { font-size: $text-xs; color: $text-muted; margin: 0; }
+  }
+}

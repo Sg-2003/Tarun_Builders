@@ -1,0 +1,125 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.panel-header-row {
+  @include flex-between;
+  margin-bottom: $space-8;
+
+  h2 { font-size: $text-2xl; color: $primary-navy; font-family: $font-heading; }
+  .subtitle { font-size: $text-sm; color: $text-muted; }
+  .unread-badge {
+    display: flex; align-items: center; gap: $space-2;
+    padding: $space-2 $space-4 !important; border-top-color: $gold !important;
+    .material-icons-round { color: $gold; }
+    span { font-size: $text-xs; color: $primary-navy; }
+  }
+}
+
+.table-container {
+  padding: 0 !important;
+  overflow-x: auto;
+}
+
+.clickable-row {
+  cursor: pointer;
+  
+  &.unread-row {
+    background: rgba(0, 53, 128, 0.02) !important;
+    td { font-weight: 600; color: $primary-navy; }
+  }
+}
+
+.sender-info {
+  display: flex; flex-direction: column;
+  span { font-size: $text-xs; color: $text-muted; font-weight: 400; }
+}
+
+.icon-btn {
+  background: transparent; border: none; cursor: pointer;
+  width: 32px; height: 32px; border-radius: $radius-sm;
+  @include flex-center;
+  transition: all $transition-fast;
+
+  .material-icons-round { font-size: 18px; }
+
+  &.delete-btn {
+    color: $error;
+    &:hover { background: rgba(198, 40, 40, 0.08); }
+  }
+}
+
+// Modal
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100;
+  backdrop-filter: blur(2px);
+}
+
+.modal-container {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto;
+  z-index: 101; background: $white; padding: $space-6 !important;
+  box-shadow: $shadow-xl !important;
+  border-top-color: $gold !important;
+}
+
+.modal-header {
+  @include flex-between;
+  margin-bottom: $space-2;
+
+  h3 { font-size: $text-lg; color: $primary-navy; font-family: $font-heading; }
+  .close-btn { background: none; border: none; cursor: pointer; color: $medium-gray; &:hover { color: $error; } }
+}
+
+.divider { height: 1px; background: $light-gray; margin-bottom: $space-4; }
+
+.contact-details-grid {
+  display: grid; grid-template-columns: 1fr; gap: $space-3;
+  margin-bottom: $space-5;
+
+  @include sm { grid-template-columns: 1fr 1fr; }
+}
+
+.detail-row {
+  display: flex; flex-direction: column;
+  span { font-size: $text-xs; color: $text-muted; text-transform: uppercase; font-weight: 600; }
+  strong { font-size: $text-sm; color: $text-dark; margin-top: 1px; }
+}
+
+.message-body {
+  background: $off-white !important;
+  padding: $space-4 !important;
+  margin-bottom: $space-5;
+  border-top-color: $primary-navy !important;
+
+  h4 { font-size: $text-xs; text-transform: uppercase; color: $primary-navy; margin-bottom: $space-2; }
+  p { font-size: $text-sm; color: $text-dark; line-height: 1.6; margin: 0; white-space: pre-wrap; }
+}
+
+.modal-form {
+  display: flex; flex-direction: column; gap: $space-4;
+
+  label {
+    display: block; font-size: $text-xs; font-weight: 700;
+    color: $primary-navy; text-transform: uppercase; margin-bottom: $space-1;
+  }
+}
+
+.form-input {
+  width: 100%; padding: $space-2 $space-3;
+  border: 1.5px solid $light-gray; border-radius: $radius-md;
+  font-family: $font-body; font-size: $text-sm; outline: none;
+  background: $white;
+  transition: border-color $transition-fast;
+  &:focus { border-color: $primary-navy; }
+}
+
+textarea.form-input { resize: vertical; }
+
+.modal-footer {
+  @include flex-between;
+  border-top: 1px solid $light-gray;
+  padding-top: $space-4;
+  margin-top: $space-2;
+  
+  .btn-outline, .btn-primary { font-size: $text-xs; }
+}

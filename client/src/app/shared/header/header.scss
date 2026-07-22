@@ -1,0 +1,278 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+// Skip link
+.skip-link {
+  position: absolute; top: -100px; left: $space-4;
+  background: $gold; color: $text-dark; padding: $space-2 $space-4;
+  font-weight: 700; font-size: $text-sm; z-index: 9999; cursor: pointer;
+  border-radius: 0 0 $radius-md $radius-md;
+  &:focus, &:hover { top: 0; }
+}
+
+// Tricolor strip
+.tricolor-strip {
+  height: 5px; display: flex;
+  .saffron { flex: 1; background: $saffron; }
+  .white { flex: 1; background: $tricolor-white; border-top: 1px solid $light-gray; border-bottom: 1px solid $light-gray; }
+  .green { flex: 1; background: $tricolor-green; }
+}
+
+// Top info bar
+.top-bar {
+  background: $primary-navy-dark;
+  color: rgba(255,255,255,0.85);
+  font-size: $text-xs;
+  padding: $space-2 0;
+
+  @media (max-width: $bp-md) { display: none; }
+
+  .top-bar-inner { @include flex-between; }
+
+  .top-bar-left, .top-bar-right {
+    display: flex; align-items: center; gap: $space-2;
+  }
+
+  .material-icons-round { font-size: 14px; color: $gold; }
+
+  .contact-link { color: rgba(255,255,255,0.85); transition: color $transition-fast;
+    &:hover { color: $gold; } }
+
+  .separator { opacity: 0.3; }
+
+  .gst-badge { font-size: 10px; background: rgba(201,162,39,0.2); color: $gold;
+    padding: 2px $space-2; border-radius: $radius-sm; font-weight: 600; letter-spacing: 0.05em; }
+
+  .accessibility-btn {
+    background: none; border: none; color: rgba(255,255,255,0.7);
+    cursor: pointer; padding: 2px; transition: color $transition-fast;
+    display: flex; align-items: center;
+    .material-icons-round { font-size: 16px; }
+    &:hover { color: $gold; }
+  }
+
+  .whatsapp-btn {
+    color: #25D366; display: flex; align-items: center;
+    transition: color $transition-fast;
+    &:hover { color: lighten(#25D366, 15%); }
+  }
+}
+
+// Main header
+.main-header {
+  background: $white;
+  box-shadow: 0 1px 0 $light-gray;
+  position: sticky; top: 0; z-index: $z-sticky;
+  transition: box-shadow $transition-base, background $transition-base;
+
+  &.scrolled {
+    box-shadow: $shadow-govt;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(8px);
+  }
+
+  .header-inner {
+    @include flex-between;
+    padding-top: $space-3;
+    padding-bottom: $space-3;
+    gap: $space-4;
+  }
+}
+
+// Logo
+.logo-block {
+  display: flex; align-items: center; gap: $space-3;
+  text-decoration: none;
+  flex-shrink: 0;
+
+  .logo-icon svg { transition: transform $transition-slow;
+    filter: drop-shadow(0 2px 4px rgba(0,53,128,0.3)); }
+
+  &:hover .logo-icon svg { transform: scale(1.05); }
+
+  .logo-text { display: flex; flex-direction: column; }
+
+  .logo-name {
+    font-family: $font-heading;
+    font-size: $text-xl;
+    font-weight: 900;
+    color: $primary-navy;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+  }
+
+  .logo-tag {
+    font-size: 10px;
+    color: $gold-dark;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 1px;
+  }
+
+  .logo-est {
+    font-size: 9px;
+    color: $text-muted;
+    letter-spacing: 0.05em;
+    margin-top: 1px;
+  }
+}
+
+// Desktop Nav
+.desktop-nav { display: none; flex: 1; justify-content: center;
+  @include lg { display: flex; } }
+
+.nav-list {
+  list-style: none; display: flex; align-items: center; gap: 0;
+  margin: 0; padding: 0;
+}
+
+.nav-item {
+  position: relative;
+
+  &:hover .dropdown-menu { display: block; }
+}
+
+.nav-link {
+  display: flex; align-items: center; gap: $space-1;
+  padding: $space-3 $space-3;
+  font-size: $text-sm; font-weight: 600;
+  color: $dark-gray;
+  text-decoration: none; background: none; border: none; cursor: pointer;
+  font-family: $font-body;
+  transition: color $transition-fast;
+  position: relative;
+
+  &::after {
+    content: ''; position: absolute; bottom: 0; left: 50%; right: 50%;
+    height: 2px; background: $primary-navy;
+    transition: left $transition-base, right $transition-base;
+  }
+
+  &:hover, &.active {
+    color: $primary-navy;
+    &::after { left: $space-3; right: $space-3; }
+  }
+
+  .arrow { font-size: 16px; transition: transform $transition-fast; }
+  &.active .arrow, &:focus .arrow { transform: rotate(180deg); }
+}
+
+// Dropdown
+.dropdown-menu {
+  display: none; position: absolute; top: calc(100% + 4px); left: 0;
+  min-width: 200px;
+  background: $white;
+  border: 1px solid $light-gray;
+  border-top: 3px solid $primary-navy;
+  box-shadow: $shadow-lg;
+  list-style: none; padding: $space-2 0; margin: 0;
+  border-radius: 0 0 $radius-md $radius-md;
+  z-index: $z-dropdown;
+
+  &.open { display: block; }
+
+  .dropdown-link {
+    display: block; padding: $space-2 $space-4;
+    color: $dark-gray; font-size: $text-sm; font-weight: 500;
+    text-decoration: none; transition: all $transition-fast;
+
+    &:hover { background: $off-white; color: $primary-navy; padding-left: $space-6; }
+  }
+}
+
+// Header actions
+.header-actions { display: flex; align-items: center; gap: $space-3; flex-shrink: 0; }
+
+.btn-admin, .btn-login {
+  display: none;
+  @include md { display: flex; }
+  align-items: center; gap: $space-1;
+  padding: $space-2 $space-4;
+  font-size: $text-xs; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  border-radius: $radius-sm; text-decoration: none; transition: all $transition-fast;
+  .material-icons-round { font-size: 16px; }
+}
+
+.btn-admin { background: $primary-navy; color: $white;
+  &:hover { background: $primary-navy-dark; color: $white; } }
+.btn-login { background: transparent; border: 1.5px solid $primary-navy; color: $primary-navy;
+  &:hover { background: $primary-navy; color: $white; } }
+
+.mobile-toggle {
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: 1.5px solid $light-gray;
+  border-radius: $radius-md; padding: $space-2;
+  cursor: pointer; color: $primary-navy;
+  .material-icons-round { font-size: 22px; }
+  @include lg { display: none; }
+}
+
+// Gold accent line
+.gold-line { height: 2px; background: linear-gradient(90deg, transparent, $gold, transparent); opacity: 0.6; }
+
+// Mobile nav
+.mobile-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: $z-sticky - 1; backdrop-filter: blur(2px);
+}
+
+.mobile-nav {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 300px;
+  background: $white; z-index: $z-sticky + 1;
+  overflow-y: auto;
+  box-shadow: -4px 0 20px rgba(0,0,0,0.2);
+  display: flex; flex-direction: column;
+
+  @include lg { display: none; }
+}
+
+.mobile-nav-header {
+  @include flex-between;
+  padding: $space-4 $space-5;
+  background: $primary-navy;
+  color: $white;
+
+  .mobile-logo-name { font-weight: 900; font-size: $text-sm; letter-spacing: 0.08em; font-family: $font-heading; }
+
+  .close-btn { background: none; border: none; color: $white; cursor: pointer; display: flex; align-items: center;
+    .material-icons-round { font-size: 22px; } }
+}
+
+.mobile-nav-list {
+  list-style: none; margin: 0; padding: $space-3 0;
+
+  .mobile-nav-link {
+    display: flex; align-items: center; gap: $space-3;
+    padding: $space-3 $space-5; color: $dark-gray; text-decoration: none;
+    font-size: $text-sm; font-weight: 500; border-bottom: 1px solid rgba(0,0,0,0.04);
+    transition: all $transition-fast;
+    .material-icons-round { font-size: 20px; color: $primary-navy; }
+    &:hover { background: $off-white; color: $primary-navy; }
+  }
+
+  .mobile-group {
+    border-bottom: 1px solid $light-gray;
+    .mobile-group-label {
+      display: block; padding: $space-3 $space-5 $space-1;
+      font-size: $text-xs; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: $gold-dark;
+    }
+    .mobile-child-link {
+      display: block; padding: $space-2 $space-5 $space-2 $space-8;
+      color: $dark-gray; text-decoration: none; font-size: $text-sm;
+      transition: all $transition-fast;
+      &:hover { color: $primary-navy; }
+    }
+  }
+}
+
+.mobile-login-btn {
+  margin: $space-4 $space-5; display: flex; align-items: center; gap: $space-2;
+  padding: $space-3 $space-5; background: $primary-navy; color: $white;
+  text-decoration: none; font-weight: 700; font-size: $text-sm;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  border-radius: $radius-sm; justify-content: center;
+  .material-icons-round { font-size: 18px; }
+}

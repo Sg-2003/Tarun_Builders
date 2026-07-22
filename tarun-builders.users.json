@@ -1,0 +1,24 @@
+[{
+  "_id": {
+    "$oid": "6a5d997092b68bb496cbfc7b"
+  },
+  "name": "Tarun",
+  "email": "admin@tarunbuilders.in",
+  "password": "$2a$12$E6wNn9WkiB/7/2FfutJ4cuXlsT4BGahNrQRTOpAGkgl9HE/AR.19m",
+  "role": "superadmin",
+  "designation": "Founder & Managing Director",
+  "avatar": "",
+  "isActive": true,
+  "isEmailVerified": true,
+  "createdAt": {
+    "$date": "2026-07-20T03:43:44.030Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-20T03:46:51.115Z"
+  },
+  "__v": 0,
+  "lastLogin": {
+    "$date": "2026-07-20T03:46:51.100Z"
+  },
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNWQ5OTcwOTJiNjhiYjQ5NmNiZmM3YiIsImlhdCI6MTc4NDUxOTIxMSwiZXhwIjoxNzg3MTExMjExfQ.4oan-9P_u4pCkftEfpuINA3wcvqc3hEt0nBjjVisuFc"
+}]

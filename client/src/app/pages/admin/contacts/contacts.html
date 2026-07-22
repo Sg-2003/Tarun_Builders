@@ -1,0 +1,113 @@
+<div class="admin-contacts-panel">
+  <div class="panel-header-row">
+    <div>
+      <h2>Inbox Enquiries</h2>
+      <p class="subtitle">Review public notifications, tender queries, career follow-ups and grievances.</p>
+    </div>
+    <div class="unread-badge govt-card">
+      <span class="material-icons-round">mark_email_unread</span>
+      <span><strong>{{ unreadCount() }}</strong> Unread Messages</span>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="page-loading">
+      <div class="spinner"></div>
+    </div>
+  } @else {
+    <div class="table-container govt-card">
+      <table class="govt-table">
+        <thead>
+          <tr>
+            <th>Sender</th>
+            <th>Type</th>
+            <th>Subject</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of contacts(); track c._id) {
+            <tr (click)="viewContact(c)" class="clickable-row" [class.unread-row]="!c.isRead">
+              <td>
+                <div class="sender-info">
+                  <strong>{{ c.name }}</strong>
+                  <span>{{ c.email }}</span>
+                </div>
+              </td>
+              <td><span class="badge" [class]="'badge-' + c.type.toLowerCase()">{{ c.type }}</span></td>
+              <td>{{ c.subject || 'No Subject' }}</td>
+              <td>{{ c.createdAt | date:'dd MMM yyyy, hh:mm a' }}</td>
+              <td>
+                <span class="badge" [class]="'badge-' + c.status.toLowerCase()">{{ c.status }}</span>
+              </td>
+              <td>
+                <button class="icon-btn delete-btn" (click)="deleteContact(c._id, $event)" title="Delete Enquiry">
+                  <span class="material-icons-round">delete</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <!-- Detail Modal -->
+  @if (selectedContact()) {
+    <div class="modal-backdrop" (click)="closeModal()"></div>
+    <div class="modal-container govt-card">
+      <div class="modal-header">
+        <h3>Enquiry Details — {{ selectedContact().type }}</h3>
+        <button class="close-btn" (click)="closeModal()"><span class="material-icons-round">close</span></button>
+      </div>
+      <div class="divider"></div>
+
+      <div class="contact-details-grid">
+        <div class="detail-row">
+          <span>Sender Name:</span>
+          <strong>{{ selectedContact().name }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Organization:</span>
+          <strong>{{ selectedContact().organization || 'N/A' }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Email Address:</span>
+          <strong>{{ selectedContact().email }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Phone / Mobile:</span>
+          <strong>{{ selectedContact().phone || 'N/A' }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Category Type:</span>
+          <strong>{{ selectedContact().type }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Target Division:</span>
+          <strong>{{ selectedContact().department || 'N/A' }}</strong>
+        </div>
+      </div>
+
+      <div class="message-body govt-card">
+        <h4>Public Message Body:</h4>
+        <p>{{ selectedContact().message }}</p>
+      </div>
+
+      <!-- Reply / Action Section -->
+      <form (ngSubmit)="saveNotes()" class="modal-form">
+        <div class="form-group">
+          <label>Officer Action / Notes</label>
+          <textarea [(ngModel)]="adminNotes" name="adminNotes" rows="4" class="form-input" placeholder="Type resolution logs, notes or emails sent..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-outline" (click)="closeModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Resolve & Save</button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

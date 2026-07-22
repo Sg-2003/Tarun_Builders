@@ -1,0 +1,305 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.page-banner {
+  background: linear-gradient(135deg, $primary-navy-dark 0%, $primary-navy 100%);
+  color: $white;
+  padding: $space-12 0 $space-8;
+  border-bottom: 4px solid $gold;
+
+  .banner-inner { @include flex-between; flex-wrap: wrap; gap: $space-4; }
+  h1 { font-size: $text-4xl; color: $white; font-family: $font-heading; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+
+  .banner-breadcrumbs {
+    display: flex; align-items: center; gap: $space-2; font-size: $text-sm;
+    a { color: rgba(255,255,255,0.7); text-decoration: none; &:hover { color: $gold; } }
+    .separator { color: rgba(255,255,255,0.4); }
+    .current { color: $gold; font-weight: 600; }
+  }
+}
+
+// Filter Panel
+.filter-panel {
+  margin-bottom: $space-8;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  background: $off-white !important;
+}
+
+.search-box-row {
+  position: relative;
+  width: 100%;
+
+  .search-icon {
+    position: absolute; left: $space-4; top: 50%; transform: translateY(-50%);
+    color: $primary-navy; font-size: 20px;
+  }
+
+  .search-input {
+    width: 100%; padding: $space-3 $space-10 $space-3 $space-10;
+    border: 1.5px solid $light-gray; border-radius: $radius-md;
+    font-family: $font-body; font-size: $text-sm; color: $text-dark;
+    outline: none; transition: border-color $transition-fast;
+    &:focus { border-color: $primary-navy; background: $white; }
+  }
+
+  .clear-search-btn {
+    position: absolute; right: $space-4; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer; color: $medium-gray;
+    display: flex; align-items: center;
+    .material-icons-round { font-size: 18px; }
+    &:hover { color: $primary-navy; }
+  }
+}
+
+.filter-options-row {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  @include xl {
+    flex-direction: row;
+    gap: $space-8;
+  }
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  flex: 1;
+
+  label {
+    font-size: $text-xs;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $primary-navy;
+    letter-spacing: 0.05em;
+  }
+}
+
+.tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.tab-btn {
+  background: $white;
+  border: 1px solid $light-gray;
+  padding: $space-2 $space-4;
+  font-size: $text-xs;
+  font-weight: 600;
+  color: $dark-gray;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $primary-navy;
+    color: $primary-navy;
+  }
+
+  &.active {
+    background: $primary-navy;
+    border-color: $primary-navy;
+    color: $white;
+  }
+}
+
+.active-filters-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $space-2;
+  padding-top: $space-2;
+  border-top: 1px dashed $light-gray;
+  font-size: $text-xs;
+
+  .label { font-weight: 700; color: $primary-navy; }
+
+  .filter-tag {
+    background: rgba(201,162,39,0.15);
+    color: $gold-dark;
+    border: 1px solid $gold;
+    padding: 2px $space-3;
+    border-radius: $radius-sm;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+
+    .close-tag {
+      cursor: pointer;
+      font-weight: 900;
+      color: $error;
+      &:hover { color: darken($error, 15%); }
+    }
+  }
+
+  .clear-all-link {
+    background: none; border: none; cursor: pointer;
+    color: $error; font-weight: 700; text-decoration: underline;
+    &:hover { color: darken($error, 15%); }
+  }
+}
+
+// Projects Grid
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include md { grid-template-columns: repeat(2, 1fr); }
+  @include xl { grid-template-columns: repeat(3, 1fr); }
+}
+
+.project-card {
+  border: 1px solid $light-gray;
+  border-radius: $radius-md;
+  overflow: hidden;
+  background: $white;
+  transition: all $transition-base;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    box-shadow: $shadow-lg;
+    transform: translateY(-5px);
+  }
+
+  .project-image {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform $transition-slow;
+      .project-card:hover & { transform: scale(1.04); }
+    }
+
+    .project-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, $primary-navy, $primary-navy-light);
+      @include flex-center;
+      .material-icons-round { font-size: 48px; color: rgba(201,162,39,0.4); }
+    }
+
+    .badge {
+      position: absolute;
+      top: $space-3;
+      right: $space-3;
+    }
+  }
+
+  .project-body {
+    padding: $space-5;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-category {
+    font-size: $text-xs;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $gold-dark;
+    letter-spacing: 0.08em;
+  }
+
+  h3 {
+    font-size: $text-base;
+    color: $primary-navy;
+    margin: $space-1 0 $space-4;
+    line-height: 1.4;
+    font-weight: 700;
+  }
+
+  .project-details-mini {
+    display: flex;
+    flex-direction: column;
+    gap: $space-2;
+    margin-bottom: $space-4;
+
+    .mini-row {
+      display: flex;
+      align-items: center;
+      gap: $space-2;
+      font-size: $text-sm;
+      color: $text-dark;
+
+      .material-icons-round {
+        font-size: 16px;
+        color: $gold-dark;
+      }
+    }
+  }
+
+  .progress-container {
+    margin-top: auto;
+    padding-top: $space-3;
+    border-top: 1px dashed $light-gray;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: $light-gray;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: $space-2;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, $primary-navy, $gold);
+    border-radius: 3px;
+  }
+
+  .progress-label-row {
+    @include flex-between;
+    font-size: $text-xs;
+    color: $text-muted;
+    font-weight: 500;
+  }
+
+  .project-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-2;
+    padding: $space-3;
+    background: $primary-navy;
+    color: $white;
+    font-size: $text-xs;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: all $transition-fast;
+
+    .material-icons-round { font-size: 16px; }
+
+    &:hover {
+      background: $gold;
+      color: $text-dark;
+    }
+  }
+}
+
+.no-results {
+  text-align: center;
+  padding: $space-12 !important;
+
+  .material-icons-round {
+    font-size: 64px;
+    color: $medium-gray;
+    margin-bottom: $space-4;
+  }
+
+  h3 { color: $primary-navy; margin-bottom: $space-2; }
+  p { color: $text-muted; margin-bottom: $space-6; }
+}

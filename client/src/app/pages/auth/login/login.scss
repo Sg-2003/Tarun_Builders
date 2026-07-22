@@ -1,0 +1,92 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, $primary-navy-dark 0%, $primary-navy 100%);
+  position: relative;
+
+  &::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A227' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    z-index: 0;
+  }
+}
+
+.tricolor-strip {
+  height: 6px; display: flex; z-index: 1;
+  .saffron { flex: 1; background: $saffron; }
+  .white { flex: 1; background: $tricolor-white; }
+  .green { flex: 1; background: $tricolor-green; }
+}
+
+.login-container {
+  flex: 1;
+  @include flex-center;
+  padding: $space-4;
+  z-index: 1;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: $space-8 !important;
+  background: $white;
+  box-shadow: $shadow-xl !important;
+  border-top: 5px solid $gold !important;
+}
+
+.card-header {
+  text-align: center;
+  margin-bottom: $space-6;
+  
+  .logo-icon svg { filter: drop-shadow(0 2px 4px rgba(0, 53, 128, 0.3)); margin-bottom: $space-2; }
+  h2 { font-size: $text-xl; font-weight: 900; color: $primary-navy; letter-spacing: 0.05em; margin: 0; }
+  .portal-tag { font-size: 10px; font-weight: 700; color: $gold-dark; text-transform: uppercase; letter-spacing: 0.1em; }
+  .divider { height: 1px; background: $light-gray; margin-top: $space-4; }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  label {
+    display: flex; align-items: center; gap: $space-1;
+    font-size: $text-xs; font-weight: 700; color: $primary-navy;
+    text-transform: uppercase; margin-bottom: $space-1;
+    .material-icons-round { font-size: 16px; color: $gold-dark; }
+  }
+
+  .form-input {
+    width: 100%; padding: $space-3 $space-4;
+    border: 1.5px solid $light-gray; border-radius: $radius-md;
+    font-family: $font-body; font-size: $text-sm; outline: none;
+    transition: border-color $transition-fast;
+    &:focus { border-color: $primary-navy; }
+  }
+}
+
+.form-error-msg {
+  display: flex; align-items: center; gap: $space-2;
+  background: rgba(198, 40, 40, 0.05); border: 1.5px solid $error;
+  padding: $space-3; border-radius: $radius-md;
+  color: $error; font-size: $text-xs; font-weight: 600;
+}
+
+.login-btn {
+  width: 100%; padding: $space-3; font-weight: 700; font-size: $text-sm;
+  letter-spacing: 0.05em; margin-top: $space-2;
+}
+
+.back-home-link {
+  display: flex; align-items: center; justify-content: center; gap: $space-1;
+  font-size: $text-xs; font-weight: 700; color: $primary-navy;
+  text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em;
+  margin-top: $space-4; transition: color $transition-fast;
+  
+  .material-icons-round { font-size: 16px; }
+  &:hover { color: $gold-dark; }
+}

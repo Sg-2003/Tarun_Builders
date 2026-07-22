@@ -1,0 +1,144 @@
+<div class="admin-projects-panel">
+  <div class="panel-header-row">
+    <div>
+      <h2>Manage Projects</h2>
+      <p class="subtitle">Create, update, and remove construction projects from the portal.</p>
+    </div>
+    <button class="btn-primary add-btn" (click)="openAddModal()">
+      <span class="material-icons-round">add</span> Add New Project
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="page-loading">
+      <div class="spinner"></div>
+    </div>
+  } @else {
+    <div class="table-container govt-card">
+      <table class="govt-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Sector</th>
+            <th>Location</th>
+            <th>Progress</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of projects(); track p._id) {
+            <tr>
+              <td><strong>{{ p.title }}</strong></td>
+              <td>{{ p.category }}</td>
+              <td>{{ p.location }}</td>
+              <td>
+                <div class="progress-cell">
+                  <div class="progress-bar-wrap"><div class="progress-fill-bar" [style.width.%]="p.progress"></div></div>
+                  <span>{{ p.progress }}%</span>
+                </div>
+              </td>
+              <td><span class="badge" [class]="'badge-' + p.status.toLowerCase()">{{ p.status }}</span></td>
+              <td>
+                <div class="action-buttons">
+                  <button class="icon-btn edit-btn" (click)="openEditModal(p)" title="Edit Project">
+                    <span class="material-icons-round">edit</span>
+                  </button>
+                  <button class="icon-btn delete-btn" (click)="deleteProject(p._id)" title="Delete Project">
+                    <span class="material-icons-round">delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <!-- Add / Edit Modal -->
+  @if (isModalOpen()) {
+    <div class="modal-backdrop" (click)="closeModal()"></div>
+    <div class="modal-container govt-card">
+      <div class="modal-header">
+        <h3>{{ modalTitle() }}</h3>
+        <button class="close-btn" (click)="closeModal()"><span class="material-icons-round">close</span></button>
+      </div>
+      <div class="divider"></div>
+
+      <form (ngSubmit)="saveProject()" class="modal-form">
+        <div class="form-group">
+          <label>Project Title *</label>
+          <input type="text" [(ngModel)]="projectForm.title" name="title" required class="form-input">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Sector / Category</label>
+            <select [(ngModel)]="projectForm.category" name="category" class="form-select">
+              @for (cat of categories; track cat) {
+                <option [value]="cat">{{ cat }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select [(ngModel)]="projectForm.status" name="status" class="form-select">
+              @for (st of statuses; track st) {
+                <option [value]="st">{{ st }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Location *</label>
+            <input type="text" [(ngModel)]="projectForm.location" name="location" required class="form-input">
+          </div>
+          <div class="form-group">
+            <label>Scale / Area</label>
+            <input type="text" [(ngModel)]="projectForm.area" name="area" class="form-input" placeholder="e.g. 50,000 sq.ft">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Project Budget</label>
+            <input type="text" [(ngModel)]="projectForm.budget" name="budget" class="form-input" placeholder="e.g. Rs. 45 Cr">
+          </div>
+          <div class="form-group">
+            <label>Progress (%)</label>
+            <input type="number" [(ngModel)]="projectForm.progress" name="progress" min="0" max="100" class="form-input">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Govt Order No.</label>
+            <input type="text" [(ngModel)]="projectForm.governmentOrderNo" name="governmentOrderNo" class="form-input">
+          </div>
+          <div class="form-group">
+            <label>Tender No.</label>
+            <input type="text" [(ngModel)]="projectForm.tenderNo" name="tenderNo" class="form-input">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Scope / Description</label>
+          <textarea [(ngModel)]="projectForm.description" name="description" rows="4" class="form-input"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Features (comma separated)</label>
+          <input type="text" [(ngModel)]="projectForm.featuresInput" name="featuresInput" class="form-input" placeholder="Feature 1, Feature 2, Feature 3">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-outline" (click)="closeModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Project</button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

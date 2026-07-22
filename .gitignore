@@ -1,0 +1,20 @@
+# Node / Server
+node_modules/
+server/node_modules/
+server/.env
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Client
+client/node_modules/
+client/dist/
+client/.angular/
+
+# Docker
+.docker/
+
+# Misc
+*.log
+.DS_Store
+Thumbs.db
+*.env.local

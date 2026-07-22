@@ -1,0 +1,302 @@
+<div class="admin-careers-panel">
+
+  <!-- ─── Header ───────────────────────────────────────────── -->
+  <div class="panel-header-row">
+    <div>
+      <h2>
+        <span class="material-icons-round">work</span>
+        Manage Careers & Openings
+      </h2>
+      <p class="subtitle">Publish job openings, edit descriptions, and manage candidate applications.</p>
+    </div>
+    <button class="btn-primary" (click)="openAdd()">
+      <span class="material-icons-round">add_circle</span>
+      Post Job Opening
+    </button>
+  </div>
+
+  <!-- ─── Stats Row ─────────────────────────────────────────── -->
+  <div class="admin-stats-row">
+    <div class="admin-stat">
+      <span class="stat-v">{{ jobs().length }}</span>
+      <span class="stat-l">Active Roles</span>
+    </div>
+    <div class="admin-stat">
+      <span class="stat-v">
+        {{ getApplicationsCount() }}
+      </span>
+      <span class="stat-l">Total Applicants</span>
+    </div>
+  </div>
+
+  <!-- ─── Table List ────────────────────────────────────────── -->
+  @if (loading()) {
+    <div class="page-loading"><div class="spinner"></div></div>
+  } @else if (jobs().length === 0) {
+    <div class="govt-card empty-panel">
+      <span class="material-icons-round">work_off</span>
+      <h3>No Job Openings Found</h3>
+      <p>Click the "Post Job Opening" button to create your first active recruitment listing.</p>
+      <button class="btn-primary" (click)="openAdd()">
+        <span class="material-icons-round">add</span> Create Opening
+      </button>
+    </div>
+  } @else {
+    <div class="table-container govt-card">
+      <table class="govt-table">
+        <thead>
+          <tr>
+            <th>Title & Department</th>
+            <th>Location</th>
+            <th>Type</th>
+            <th>Vacancies</th>
+            <th>Applications</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th class="actions-col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (j of jobs(); track j._id) {
+            <tr [class.inactive-row]="!j.isActive">
+              <td>
+                <div class="title-cell">
+                  <strong>{{ j.title }}</strong>
+                  <span class="dept-sub">{{ j.department }}</span>
+                </div>
+              </td>
+              <td>{{ j.location }}</td>
+              <td><span class="type-pill">{{ j.type }}</span></td>
+              <td>{{ j.vacancies }}</td>
+              <td>
+                <button
+                  class="btn-text-action"
+                  [disabled]="!j.applications || j.applications.length === 0"
+                  (click)="openApplications(j)">
+                  <span class="material-icons-round">people</span>
+                  {{ j.applications ? j.applications.length : 0 }} Applicants
+                </button>
+              </td>
+              <td>{{ j.lastDate | date:'dd MMM yyyy' }}</td>
+              <td>
+                <span class="status-badge" [class.active]="j.isActive" [class.inactive]="!j.isActive">
+                  {{ j.isActive ? 'Active' : 'Closed' }}
+                </span>
+              </td>
+              <td>
+                <div class="actions-row">
+                  <button class="icon-btn btn-edit" (click)="openEdit(j)" title="Edit Job">
+                    <span class="material-icons-round">edit</span>
+                  </button>
+                  <button class="icon-btn btn-delete" (click)="confirmDelete(j._id)" title="Delete Job">
+                    <span class="material-icons-round">delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
+
+<!-- ─── Add / Edit Form Modal ──────────────────────────────── -->
+@if (showForm()) {
+  <div class="modal-backdrop" (click)="closeForm()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ form._id ? 'Edit Job Opening' : 'Post New Job' }}</h3>
+        <button class="modal-close" (click)="closeForm()">
+          <span class="material-icons-round">close</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-fields">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Job Title <span class="req">*</span></label>
+              <input type="text" [(ngModel)]="form.title" placeholder="e.g. Senior Civil Engineer" class="form-input">
+            </div>
+            <div class="form-group">
+              <label>Department <span class="req">*</span></label>
+              <input type="text" [(ngModel)]="form.department" placeholder="e.g. Highways Division" class="form-input">
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Location</label>
+              <input type="text" [(ngModel)]="form.location" placeholder="e.g. Mumbai, Maharashtra" class="form-input">
+            </div>
+            <div class="form-group">
+              <label>Job Type</label>
+              <select [(ngModel)]="form.type" class="form-input">
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Contract">Contract</option>
+                <option value="Internship">Internship</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Experience Required</label>
+              <input type="text" [(ngModel)]="form.experience" placeholder="e.g. 5-8 Years" class="form-input">
+            </div>
+            <div class="form-group">
+              <label>Salary Package</label>
+              <input type="text" [(ngModel)]="form.salary" placeholder="e.g. Rs. 8 - 10 LPA" class="form-input">
+            </div>
+            <div class="form-group">
+              <label>Vacancies</label>
+              <input type="number" [(ngModel)]="form.vacancies" min="1" class="form-input">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Required Qualification</label>
+            <input type="text" [(ngModel)]="form.qualification" placeholder="e.g. B.Tech / M.Tech in Civil Engineering" class="form-input">
+          </div>
+
+          <div class="form-group">
+            <label>Job Description</label>
+            <textarea [(ngModel)]="form.description" rows="3" placeholder="Brief summary of the role..." class="form-input"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Responsibilities <span class="hint-inline">(one per line)</span></label>
+            <textarea [(ngModel)]="form.responsibilities" rows="3" placeholder="Supervise piling works&#10;Verify drawings and schedules" class="form-input"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Requirements / Skills <span class="hint-inline">(one per line)</span></label>
+            <textarea [(ngModel)]="form.requirements" rows="3" placeholder="Valid Civil Engineering degree&#10;HSE certificate is a plus" class="form-input"></textarea>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Application Deadline</label>
+              <input type="date" [(ngModel)]="form.lastDate" class="form-input">
+            </div>
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="form.isActive">
+                <span>Accepting Applications (Active)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-outline" (click)="closeForm()">Cancel</button>
+        <button
+          class="btn-primary"
+          (click)="saveJob()"
+          [disabled]="saving() || !form.title || !form.department">
+          @if (saving()) {
+            <div class="spinner-sm"></div>
+            Saving...
+          } @else {
+            <span class="material-icons-round">save</span>
+            {{ form._id ? 'Update Job' : 'Publish Job' }}
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ─── Applicants Modal ────────────────────────────────────── -->
+@if (showApplicationsModal()) {
+  <div class="modal-backdrop" (click)="closeApplications()">
+    <div class="modal-panel lg-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <h3>Applications Received</h3>
+          <span class="modal-subtitle">{{ selectedJob()?.title }} — {{ selectedJob()?.department }}</span>
+        </div>
+        <button class="modal-close" (click)="closeApplications()">
+          <span class="material-icons-round">close</span>
+        </button>
+      </div>
+
+      <div class="modal-body max-height-modal">
+        <div class="applicants-list">
+          @for (app of selectedJob()?.applications; track app._id; let i = $index) {
+            <div class="applicant-card govt-card">
+              <div class="app-header">
+                <div>
+                  <h4>{{ app.name }}</h4>
+                  <span class="app-date">Applied on: {{ app.appliedAt | date:'dd MMM yyyy, hh:mm a' }}</span>
+                </div>
+                <div class="status-selector">
+                  <label>Status:</label>
+                  <select
+                    [ngModel]="app.status"
+                    (ngModelChange)="updateApplicationStatus(i, $event)"
+                    class="status-dropdown"
+                    [class.shortlisted]="app.status === 'Shortlisted'"
+                    [class.interview]="app.status === 'Interview'"
+                    [class.selected]="app.status === 'Selected'"
+                    [class.rejected]="app.status === 'Rejected'">
+                    <option value="Applied">Applied</option>
+                    <option value="Shortlisted">Shortlisted</option>
+                    <option value="Interview">Interview</option>
+                    <option value="Selected">Selected</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="app-contact-row">
+                <span><span class="material-icons-round">email</span> {{ app.email }}</span>
+                <span><span class="material-icons-round">phone</span> {{ app.phone }}</span>
+              </div>
+
+              @if (app.coverLetter) {
+                <div class="app-cover-letter">
+                  <strong>Cover Letter:</strong>
+                  <p>{{ app.coverLetter }}</p>
+                </div>
+              }
+
+              <div class="app-footer">
+                @if (app.resumeUrl) {
+                  <a [href]="app.resumeUrl" target="_blank" class="download-link">
+                    <span class="material-icons-round">file_present</span>
+                    View Resume ({{ getResumeFilename(app.resumeUrl) }})
+                  </a>
+                } @else {
+                  <span class="no-resume"><span class="material-icons-round">warning</span> No Resume Uploaded</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn-outline" (click)="closeApplications()">Close</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ─── Delete Confirm ─────────────────────────────────────── -->
+@if (deleteConfirmId()) {
+  <div class="modal-backdrop" (click)="cancelDelete()">
+    <div class="confirm-modal" (click)="$event.stopPropagation()">
+      <span class="material-icons-round danger-icon">delete_forever</span>
+      <h3>Delete Job Opening?</h3>
+      <p>This action cannot be undone and will delete all applicants record as well.</p>
+      <div class="confirm-actions">
+        <button class="btn-outline" (click)="cancelDelete()">Cancel</button>
+        <button class="btn-danger" (click)="deleteJob(deleteConfirmId()!)">Delete</button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,284 @@
+<!-- HERO BANNER SLIDER -->
+<section class="hero-section">
+  <div class="hero-slides">
+    @for (slide of heroSlides; track slide.bg; let i = $index) {
+      <div class="hero-slide" [class.active]="heroSlide() === i" [class]="'hero-slide ' + slide.bg + (heroSlide() === i ? ' active' : '')">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+          <div class="hero-tag animate-slide-up">
+            <span class="material-icons-round">verified</span>{{ slide.tag }}
+          </div>
+          <h1 class="hero-title">{{ slide.title }}</h1>
+          <p class="hero-subtitle">{{ slide.subtitle }}</p>
+          <div class="hero-actions">
+            <a routerLink="/projects" class="hero-btn-primary">
+              <span class="material-icons-round">folder_open</span> View Projects
+            </a>
+            <a routerLink="/contact" class="hero-btn-secondary">
+              <span class="material-icons-round">contact_mail</span> Get In Touch
+            </a>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Slide indicators -->
+  <div class="hero-indicators">
+    @for (slide of heroSlides; track slide.bg; let i = $index) {
+      <button class="indicator" [class.active]="heroSlide() === i" (click)="setSlide(i)"></button>
+    }
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint">
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    <span>Scroll Down</span>
+  </div>
+</section>
+
+<!-- ANNOUNCEMENT TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-label">
+    <span class="material-icons-round">campaign</span> Announcements
+  </div>
+  <div class="ticker-content">
+    <div class="ticker-track">
+      <span>📢 Tender Invited for Smart City Phase-II — Last Date: 31 Aug 2025</span>
+      <span>🏆 Tarun Builders wins National Construction Excellence Award 2024</span>
+      <span>🔔 New career openings — Civil Engineers, Project Managers. Apply Now!</span>
+      <span>✅ ISO 14001:2015 Environmental Certification Achieved</span>
+    </div>
+  </div>
+</div>
+
+<!-- STATS COUNTER SECTION -->
+<section id="stats-section" class="stats-section section-navy">
+  <div class="container stats-grid">
+    @for (stat of stats; track stat.label; let i = $index) {
+      <div class="stat-card">
+        <div class="stat-icon"><span class="material-icons-round">{{ stat.icon }}</span></div>
+        <div class="stat-number" [id]="'counter-' + i">0{{ stat.suffix }}</div>
+        <div class="stat-label">{{ stat.label }}</div>
+        <div class="stat-divider"></div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- CHAIRMAN'S QUOTE -->
+<section class="chairman-section section">
+  <div class="container chairman-inner">
+    <div class="chairman-photo-col">
+      <div class="chairman-photo-frame">
+        <div class="chairman-photo-bg">
+          <img src="assets/images/owner.png" alt="Tarun, Founder & MD" class="chairman-img">
+        </div>
+        <div class="chairman-badge">
+          <span class="material-icons-round">star</span>
+          Founder & MD
+        </div>
+      </div>
+    </div>
+    <div class="chairman-content">
+      <div class="section-header" style="text-align:left">
+        <span class="overline">Leadership</span>
+        <h2>Chairman's Message</h2>
+      </div>
+      <blockquote class="chairman-quote">
+        "At Tarun Builders, we don't just construct buildings — we build the foundation of India's progress. Every project we undertake is a commitment to quality, safety, and the trust of our nation."
+      </blockquote>
+      <div class="chairman-name">
+        <strong>Tarun</strong>
+        <span>Founder & Managing Director, Tarun Builders</span>
+      </div>
+      <a routerLink="/chairman-message" class="read-more-btn">
+        Read Full Message <span class="material-icons-round">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES SECTION -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="overline">What We Do</span>
+      <h2>Our Core Services</h2>
+      <p>Delivering world-class infrastructure across sectors with proven expertise and government compliance.</p>
+    </div>
+    <div class="services-grid">
+      @for (service of services; track service.title) {
+        <div class="service-card">
+          <div class="service-icon">
+            <span class="material-icons-round">{{ service.icon }}</span>
+          </div>
+          <h3>{{ service.title }}</h3>
+          <p>{{ service.desc }}</p>
+          <a routerLink="/services" class="service-link">
+            Learn More <span class="material-icons-round">arrow_forward</span>
+          </a>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PROJECTS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="overline">Our Work</span>
+      <h2>Featured Projects</h2>
+      <p>Explore our landmark projects that have shaped India's infrastructure landscape.</p>
+    </div>
+    <div class="projects-grid">
+      @for (project of featuredProjects(); track project._id) {
+        <div class="project-card">
+          <div class="project-image">
+            @if (project.images?.length) {
+              <img [src]="project.images[0].url" [alt]="project.title">
+            } @else {
+              <div class="project-placeholder">
+                <span class="material-icons-round">domain</span>
+              </div>
+            }
+            <span class="badge" [class]="'badge-' + project.status.toLowerCase()">{{ project.status }}</span>
+          </div>
+          <div class="project-body">
+            <span class="project-category">{{ project.category }}</span>
+            <h3>{{ project.title }}</h3>
+            <div class="project-meta">
+              <span><span class="material-icons-round">location_on</span>{{ project.location }}</span>
+            </div>
+            @if (project.progress !== undefined) {
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="project.progress"></div>
+              </div>
+              <div class="progress-label">{{ project.progress }}% Complete</div>
+            }
+          </div>
+          <a [routerLink]="['/projects', project._id]" class="project-link">View Details</a>
+        </div>
+      }
+    </div>
+    <div class="view-all-wrap">
+      <a routerLink="/projects" class="btn-primary">
+        View All Projects <span class="material-icons-round">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="why-section section section-navy">
+  <div class="container">
+    <div class="section-header" style="text-align:left">
+      <span class="overline" style="color:#C9A227">Why Choose Us</span>
+      <h2 style="color:white">India's Trusted Infrastructure Partner</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon"><span class="material-icons-round">verified_user</span></div>
+        <h4>Government Registered</h4>
+        <p>Class A government registered contractor with clearances from CPWD, PWD and NHAI.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon"><span class="material-icons-round">workspace_premium</span></div>
+        <h4>ISO Certified</h4>
+        <p>ISO 9001:2015, ISO 14001:2015 and OHSAS 18001 certified for quality and safety.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon"><span class="material-icons-round">groups</span></div>
+        <h4>Expert Team</h4>
+        <p>500+ skilled engineers, architects and project managers with decades of experience.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon"><span class="material-icons-round">schedule</span></div>
+        <h4>On-Time Delivery</h4>
+        <p>98% on-time project completion rate with digital monitoring and reporting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LATEST NEWS -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="overline">Latest Updates</span>
+      <h2>News & Announcements</h2>
+    </div>
+    <div class="news-grid">
+      @for (item of latestNews(); track item._id) {
+        <div class="news-card">
+          <div class="news-category">{{ item.category }}</div>
+          <h3>{{ item.title }}</h3>
+          <div class="news-date">
+            <span class="material-icons-round">calendar_today</span>
+            {{ item.createdAt | date:'dd MMM yyyy' }}
+          </div>
+          <a [routerLink]="['/news', item._id]" class="news-link">Read More →</a>
+        </div>
+      }
+    </div>
+    <div class="view-all-wrap">
+      <a routerLink="/news" class="btn-outline">All News & Updates</a>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK CONTACT -->
+<section class="section quick-contact-section">
+  <div class="container quick-contact-inner">
+    <div class="quick-contact-info">
+      <h2>Get In Touch</h2>
+      <p>Have a project in mind? Our team is ready to discuss your infrastructure needs.</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <span class="material-icons-round">phone</span>
+          <div><strong>Phone</strong><br><a href="tel:+912212345678">+91-22-1234-5678</a></div>
+        </div>
+        <div class="contact-item">
+          <span class="material-icons-round">email</span>
+          <div><strong>Email</strong><br><a href="mailto:info@tarunbuilders.in">info&#64;tarunbuilders.in</a></div>
+        </div>
+        <div class="contact-item">
+          <span class="material-icons-round">schedule</span>
+          <div><strong>Office Hours</strong><br>Mon – Sat, 9:00 AM – 6:00 PM</div>
+        </div>
+      </div>
+    </div>
+    <div class="quick-contact-form">
+      @if (formSuccess()) {
+        <div class="form-success">
+          <span class="material-icons-round">check_circle</span>
+          <h3>Message Sent!</h3>
+          <p>Thank you for reaching out. We'll contact you within 24 hours.</p>
+        </div>
+      } @else {
+        <form (ngSubmit)="submitQuickForm()" class="contact-form">
+          <h3>Send Us a Message</h3>
+          <div class="form-group">
+            <input type="text" [(ngModel)]="quickForm.name" name="name" placeholder="Your Name *" required class="form-input">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <input type="email" [(ngModel)]="quickForm.email" name="email" placeholder="Email Address *" required class="form-input">
+            </div>
+            <div class="form-group">
+              <input type="tel" [(ngModel)]="quickForm.phone" name="phone" placeholder="Phone Number" class="form-input">
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea [(ngModel)]="quickForm.message" name="message" placeholder="Your Message *" rows="4" required class="form-input"></textarea>
+          </div>
+          <button type="submit" class="btn-primary submit-btn" [disabled]="formSubmitting()">
+            @if (formSubmitting()) { <span>Sending...</span> }
+            @else { <span><span class="material-icons-round">send</span> Send Message</span> }
+          </button>
+        </form>
+      }
+    </div>
+  </div>
+</section>

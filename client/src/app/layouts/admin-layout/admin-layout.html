@@ -1,0 +1,67 @@
+<div class="admin-wrapper">
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" [class.collapsed]="!sidebarOpen">
+    <div class="sidebar-brand">
+      <svg width="32" height="32" viewBox="0 0 52 52">
+        <polygon points="26,4 50,46 2,46" fill="none" stroke="#C9A227" stroke-width="3" stroke-linejoin="round"/>
+        <polygon points="26,10 44,42 8,42" fill="#003580"/>
+        <circle cx="26" cy="5" r="3" fill="#C9A227"/>
+      </svg>
+      <span class="brand-text">TB ADMIN</span>
+    </div>
+
+    <div class="user-profile-summary">
+      <div class="user-avatar">
+        <span class="material-icons-round">account_circle</span>
+      </div>
+      <div class="user-meta" *ngIf="auth.currentUser()">
+        <h4>{{ auth.currentUser()?.name }}</h4>
+        <span class="user-role">{{ auth.currentUser()?.role | uppercase }}</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul class="nav-list">
+        @for (item of menuItems; track item.label) {
+          <li>
+            <a [routerLink]="item.path" routerLinkActive="active" class="nav-link">
+              <span class="material-icons-round">{{ item.icon }}</span>
+              <span class="label-text">{{ item.label }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <span class="material-icons-round">logout</span>
+        <span class="label-text">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main View -->
+  <div class="admin-main-container">
+    <!-- Topbar -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
+          <span class="material-icons-round">menu</span>
+        </button>
+        <span class="topbar-title">Tarun Builders Control Panel</span>
+      </div>
+      <div class="topbar-right">
+        <a routerLink="/" class="view-site-link" target="_blank">
+          <span class="material-icons-round">open_in_new</span>
+          View Site
+        </a>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <main class="admin-content-area">
+      <router-outlet />
+    </main>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="admin-departments-panel">
+  <div class="panel-header-row">
+    <div>
+      <h2>Manage Departments</h2>
+      <p class="subtitle">Publish and update engineering divisions, codes and assign heads of division.</p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="page-loading">
+      <div class="spinner"></div>
+    </div>
+  } @else {
+    <div class="table-container govt-card">
+      <table class="govt-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Head of Department</th>
+            <th>Designation</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (d of departments(); track d._id) {
+            <tr>
+              <td><strong>{{ d.code }}</strong></td>
+              <td>{{ d.name }}</td>
+              <td>{{ d.headName }}</td>
+              <td><span class="badge badge-new">{{ d.headDesignation }}</span></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

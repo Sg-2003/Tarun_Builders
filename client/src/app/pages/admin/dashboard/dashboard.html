@@ -1,0 +1,115 @@
+<div class="admin-dashboard-overview">
+  <div class="dashboard-header-row">
+    <div>
+      <h2>Dashboard Overview</h2>
+      <p class="subtitle">System statistics, recent public enquiries, and project status monitoring.</p>
+    </div>
+    <button class="btn-primary refresh-btn" (click)="loadStats()" [disabled]="loading()">
+      <span class="material-icons-round">refresh</span> Refresh Data
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="page-loading">
+      <div class="spinner"></div>
+    </div>
+  } @else {
+    <!-- Stats Cards Grid -->
+    <div class="stats-cards-grid">
+      <div class="stat-box govt-card border-navy">
+        <div class="stat-icon-wrapper bg-navy"><span class="material-icons-round">domain</span></div>
+        <div class="stat-val-block">
+          <h3>{{ stats().totalProjects }}</h3>
+          <span>Total Projects</span>
+        </div>
+      </div>
+
+      <div class="stat-box govt-card border-green">
+        <div class="stat-icon-wrapper bg-green"><span class="material-icons-round">done_all</span></div>
+        <div class="stat-val-block">
+          <h3>{{ stats().completedProjects }}</h3>
+          <span>Completed Projects</span>
+        </div>
+      </div>
+
+      <div class="stat-box govt-card border-blue">
+        <div class="stat-icon-wrapper bg-blue"><span class="material-icons-round">trending_up</span></div>
+        <div class="stat-val-block">
+          <h3>{{ stats().runningProjects }}</h3>
+          <span>Ongoing Projects</span>
+        </div>
+      </div>
+
+      <div class="stat-box govt-card border-gold">
+        <div class="stat-icon-wrapper bg-gold"><span class="material-icons-round">email</span></div>
+        <div class="stat-val-block">
+          <h3>{{ stats().unreadContacts }}</h3>
+          <span>Unread Enquiries</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Logs Grid -->
+    <div class="dashboard-logs-grid">
+      <!-- Recent Projects -->
+      <div class="govt-card log-card">
+        <div class="card-title-row">
+          <h3>Recent Project Additions</h3>
+          <a routerLink="/admin/projects" class="view-link">Manage Projects</a>
+        </div>
+        <div class="divider"></div>
+        
+        <table class="govt-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Sector</th>
+              <th>Status</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of recentProjects(); track p._id) {
+              <tr>
+                <td><strong>{{ p.title }}</strong></td>
+                <td>{{ p.category }}</td>
+                <td><span class="badge" [class]="'badge-' + p.status.toLowerCase()">{{ p.status }}</span></td>
+                <td>{{ p.location }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Recent Enquiries -->
+      <div class="govt-card log-card">
+        <div class="card-title-row">
+          <h3>Recent Public Enquiries</h3>
+          <a routerLink="/admin/contacts" class="view-link">View Inbox</a>
+        </div>
+        <div class="divider"></div>
+
+        <table class="govt-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Subject</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (c of recentContacts(); track c._id) {
+              <tr>
+                <td><strong>{{ c.name }}</strong></td>
+                <td><span class="badge badge-new">{{ c.type }}</span></td>
+                <td>{{ c.subject || 'No Subject' }}</td>
+                <td>{{ c.createdAt | date:'dd MMM, hh:mm a' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

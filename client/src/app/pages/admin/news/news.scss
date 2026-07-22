@@ -1,0 +1,15 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.panel-header-row {
+  @include flex-between;
+  margin-bottom: $space-8;
+
+  h2 { font-size: $text-2xl; color: $primary-navy; font-family: $font-heading; }
+  .subtitle { font-size: $text-sm; color: $text-muted; }
+}
+
+.table-container {
+  padding: 0 !important;
+  overflow-x: auto;
+}

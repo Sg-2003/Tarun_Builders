@@ -1,0 +1,116 @@
+<div class="page-banner">
+  <div class="container banner-inner">
+    <h1>Our Projects</h1>
+    <div class="banner-breadcrumbs">
+      <a routerLink="/">Home</a>
+      <span class="separator">/</span>
+      <span class="current">Projects</span>
+    </div>
+  </div>
+</div>
+
+<div class="container section">
+  <!-- Filter Panel -->
+  <div class="govt-card filter-panel">
+    <div class="search-box-row">
+      <span class="material-icons-round search-icon">search</span>
+      <input type="text" [(ngModel)]="searchQuery" (input)="loadProjects()" placeholder="Search projects by title, state, or location..." class="search-input">
+      @if (searchQuery()) {
+        <button class="clear-search-btn" (click)="searchQuery.set(''); loadProjects()"><span class="material-icons-round">close</span></button>
+      }
+    </div>
+
+    <div class="filter-options-row">
+      <!-- Category Tabs -->
+      <div class="filter-group">
+        <label>Sector / Category:</label>
+        <div class="tab-list">
+          <button class="tab-btn" [class.active]="selectedCategory() === ''" (click)="filterCategory('')">All</button>
+          @for (c of categories; track c) {
+            <button class="tab-btn" [class.active]="selectedCategory() === c" (click)="filterCategory(c)">{{ c }}</button>
+          }
+        </div>
+      </div>
+
+      <!-- Status Tabs -->
+      <div class="filter-group">
+        <label>Project Status:</label>
+        <div class="tab-list">
+          <button class="tab-btn" [class.active]="selectedStatus() === ''" (click)="filterStatus('')">All</button>
+          @for (s of statuses; track s) {
+            <button class="tab-btn" [class.active]="selectedStatus() === s" (click)="filterStatus(s)">{{ s }}</button>
+          }
+        </div>
+      </div>
+    </div>
+
+    @if (selectedCategory() || selectedStatus() || searchQuery()) {
+      <div class="active-filters-row">
+        <span class="label">Active Filters:</span>
+        @if (selectedCategory()) { <span class="filter-tag">Sector: {{ selectedCategory() }} <span class="close-tag" (click)="filterCategory('')">×</span></span> }
+        @if (selectedStatus()) { <span class="filter-tag">Status: {{ selectedStatus() }} <span class="close-tag" (click)="filterStatus('')">×</span></span> }
+        @if (searchQuery()) { <span class="filter-tag">Search: "{{ searchQuery() }}" <span class="close-tag" (click)="searchQuery.set(''); loadProjects()">×</span></span> }
+        <button class="clear-all-link" (click)="clearFilters()">Clear All</button>
+      </div>
+    }
+  </div>
+
+  <!-- Loading Skeletons -->
+  @if (loading()) {
+    <div class="page-loading">
+      <div class="spinner"></div>
+    </div>
+  } @else {
+    <!-- Projects Grid -->
+    @if (projects().length === 0) {
+      <div class="govt-card no-results">
+        <span class="material-icons-round">folder_off</span>
+        <h3>No Projects Found</h3>
+        <p>No projects match your current filter selections. Try clearing your filters or search queries.</p>
+        <button class="btn-primary" (click)="clearFilters()">Clear All Filters</button>
+      </div>
+    } @else {
+      <div class="projects-grid">
+        @for (p of projects(); track p._id) {
+          <div class="project-card animate-fade-in">
+            <div class="project-image">
+              @if (p.images?.length) {
+                <img [src]="p.images[0].url" [alt]="p.title">
+              } @else {
+                <div class="project-placeholder">
+                  <span class="material-icons-round">domain</span>
+                </div>
+              }
+              <span class="badge" [class]="'badge-' + p.status.toLowerCase()">{{ p.status }}</span>
+            </div>
+            
+            <div class="project-body">
+              <span class="project-category">{{ p.category }}</span>
+              <h3>{{ p.title }}</h3>
+              
+              <div class="project-details-mini">
+                <div class="mini-row"><span class="material-icons-round">location_on</span> {{ p.location }}</div>
+                <div class="mini-row"><span class="material-icons-round">payments</span> Budget: <strong>{{ p.budget || 'N/A' }}</strong></div>
+                <div class="mini-row"><span class="material-icons-round">square_foot</span> Scale: {{ p.area || 'N/A' }}</div>
+              </div>
+
+              @if (p.progress !== undefined) {
+                <div class="progress-container">
+                  <div class="progress-bar"><div class="progress-fill" [style.width.%]="p.progress"></div></div>
+                  <div class="progress-label-row">
+                    <span>{{ p.progress }}% Completed</span>
+                    <span>Goal: {{ p.duration || 'N/A' }}</span>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <a [routerLink]="['/projects', p._id]" class="project-link">
+              View Detailed Dashboard <span class="material-icons-round">arrow_forward</span>
+            </a>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,97 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.page-banner {
+  background: linear-gradient(135deg, $primary-navy-dark 0%, $primary-navy 100%);
+  color: $white;
+  padding: $space-12 0 $space-8;
+  border-bottom: 4px solid $gold;
+
+  .banner-inner { @include flex-between; flex-wrap: wrap; gap: $space-4; }
+  h1 { font-size: $text-4xl; color: $white; font-family: $font-heading; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+
+  .banner-breadcrumbs {
+    display: flex; align-items: center; gap: $space-2; font-size: $text-sm;
+    a { color: rgba(255,255,255,0.7); text-decoration: none; &:hover { color: $gold; } }
+    .separator { color: rgba(255,255,255,0.4); }
+    .current { color: $gold; font-weight: 600; }
+  }
+}
+
+.rti-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-8;
+  align-items: start;
+
+  @include lg {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.rti-main {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+
+  h2 { font-size: $text-xl; color: $primary-navy; margin-bottom: $space-2; font-family: $font-heading; }
+  .sub-heading { font-size: $text-base; color: $primary-navy; margin: $space-4 0 $space-2; font-family: $font-body; font-weight: 700; }
+  .divider { height: 2px; background: $gold; width: 60px; margin-bottom: $space-4; }
+  p { font-size: $text-sm; color: $text-dark; line-height: 1.7; }
+}
+
+.pio-cards {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  margin-top: $space-4;
+}
+
+.pio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-4;
+  padding: $space-4;
+  border-bottom: 1px dashed $light-gray;
+  
+  &:last-child { border-bottom: none; }
+
+  .pio-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: $primary-navy; color: $white;
+    @include flex-center;
+    .material-icons-round { font-size: 32px; }
+  }
+
+  .pio-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+
+    h3 { font-size: $text-base; color: $primary-navy; margin: 0; }
+    .desig { font-size: $text-xs; font-weight: 700; color: $gold-dark; text-transform: uppercase; }
+    .contact {
+      display: inline-flex; align-items: center; gap: $space-2;
+      font-size: $text-xs; color: $text-muted;
+      .material-icons-round { font-size: 14px; color: $gold-dark; }
+    }
+  }
+}
+
+.rti-sidebar {
+  h3 { font-size: $text-lg; color: $primary-navy; margin-bottom: 2px; }
+  .divider { height: 2px; background: $gold; width: 40px; margin-bottom: $space-4; }
+}
+
+.doc-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  font-size: $text-xs;
+  margin-bottom: $space-3;
+  padding: $space-3;
+  
+  &:last-child { margin-bottom: 0; }
+}
