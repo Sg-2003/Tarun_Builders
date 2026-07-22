@@ -10,8 +10,8 @@ import { RouterLink } from '@angular/router';
 })
 export class RtiComponent {
   officers = [
-    { name: 'Dr. Ramesh Nair', designation: 'Public Information Officer (PIO)', email: 'pio&#64;tarunbuilders.in', phone: '+91-22-1234-5601', avatar: 'assets/images/officer_ramesh.png' },
-    { name: 'Amit Trivedi', designation: 'Assistant PIO (APIO)', email: 'apio&#64;tarunbuilders.in', phone: '+91-22-1234-5602', avatar: 'assets/images/officer_amit.png' },
-    { name: 'Tarun', designation: 'Appellate Authority (MD)', email: 'appellate&#64;tarunbuilders.in', phone: '+91-22-1234-5600', avatar: 'assets/images/owner.png' }
+    { name: 'Dr. Ramesh Nair', designation: 'Public Information Officer (PIO)', email: 'pio@tarunbuilders.in', phone: '+91-22-1234-5601', avatar: 'assets/images/officer_ramesh.png' },
+    { name: 'Amit Trivedi', designation: 'Assistant PIO (APIO)', email: 'apio@tarunbuilders.in', phone: '+91-22-1234-5602', avatar: 'assets/images/officer_amit.png' },
+    { name: 'Tarun', designation: 'Appellate Authority (MD)', email: 'appellate@tarunbuilders.in', phone: '+91-22-1234-5600', avatar: 'assets/images/owner.png' }
   ];
 }
