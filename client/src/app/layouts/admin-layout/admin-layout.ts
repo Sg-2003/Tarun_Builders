@@ -28,4 +28,13 @@ export class AdminLayoutComponent {
 
   toggleSidebar() { this.sidebarOpen = !this.sidebarOpen; }
   logout() { this.auth.logout(); }
+  getUserAvatar(): string | null {
+    const user = this.auth.currentUser();
+    if (!user) return null;
+    if (user.avatar) return user.avatar;
+    if (user.name === 'Tarun' || user.role === 'superadmin') {
+      return 'assets/images/owner.png';
+    }
+    return null;
+  }
 }

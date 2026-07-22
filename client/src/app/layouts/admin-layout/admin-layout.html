@@ -12,7 +12,8 @@
 
     <div class="user-profile-summary">
       <div class="user-avatar">
-        <span class="material-icons-round">account_circle</span>
+        <img *ngIf="getUserAvatar()" [src]="getUserAvatar()" alt="User Profile" class="avatar-img">
+        <span *ngIf="!getUserAvatar()" class="material-icons-round">account_circle</span>
       </div>
       <div class="user-meta" *ngIf="auth.currentUser()">
         <h4>{{ auth.currentUser()?.name }}</h4>
