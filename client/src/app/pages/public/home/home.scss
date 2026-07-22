@@ -315,10 +315,10 @@
 }
 .contact-items { display: flex; flex-direction: column; gap: $space-5; }
 .contact-item {
-  display: flex; align-items: flex-start; gap: $space-4;
+  display: flex; align-items: center; gap: $space-4;
   .material-icons-round { font-size: 24px; color: $gold; background: $primary-navy;
     width: 44px; height: 44px; border-radius: $radius-md; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  div { font-size: $text-sm; color: $dark-gray; line-height: 1.4; margin-top: 10px; }
+  div { font-size: $text-sm; color: $dark-gray; line-height: 1.4; }
   strong { display: block; font-size: $text-sm; font-weight: 700; color: $primary-navy; margin-bottom: 2px; }
   a { color: $dark-gray; text-decoration: none; font-size: $text-sm;
     &:hover { color: $primary-navy; } }
