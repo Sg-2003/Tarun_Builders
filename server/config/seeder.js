@@ -6,20 +6,68 @@ const slugify = require('slugify');
 
 const seedDatabase = async () => {
   try {
-    // 1. Seed Departments
-    const deptCount = await Department.countDocuments();
+    // 1. Seed & Update Departments
+    const departmentsToSeed = [
+      {
+        code: 'CED',
+        name: 'Civil Engineering Department',
+        description: 'Focuses on the design, structural analysis, foundation works, and main structure construction of all buildings, bridges, and highway concrete components.',
+        headName: 'Dr. Ramesh Nair',
+        headDesignation: 'Chief Engineer (Civil)',
+        headPhoto: 'assets/images/officer_ramesh.png',
+        icon: 'construction',
+        color: '#003580',
+        order: 1,
+        services: ['Structural Analysis', 'High-Rise RCC Design', 'Soil/Geotechnical Testing', 'Foundation Engineering']
+      },
+      {
+        code: 'HPD',
+        name: 'Highways & Pavement Works',
+        description: 'Dedicated to earthwork excavation, sub-base preparation, asphalt mixtures, concrete pavements, highway toll integration, and traffic safety systems.',
+        headName: 'Sanjay Deshmukh',
+        headDesignation: 'Executive Engineer (Highways)',
+        headPhoto: 'assets/images/officer_sanjay.png',
+        icon: 'add_road',
+        color: '#C9A227',
+        order: 2,
+        services: ['Flexible/Asphalt Pavements', 'Rigid Concrete Roads', 'Drainage Design', 'Toll Plaza Infrastructure']
+      },
+      {
+        code: 'EED',
+        name: 'Electrical & Electrification',
+        description: 'Handles high-voltage substation integration, street lighting, smart grids, solar power installations, and indoor electrical routing for multi-story blocks.',
+        headName: 'Amit Trivedi',
+        headDesignation: 'Superintending Engineer (Elec.)',
+        headPhoto: 'assets/images/officer_amit.png',
+        icon: 'bolt',
+        color: '#138808',
+        order: 3,
+        services: ['Sub-Station Erection', 'Underground HT/LT Ducting', 'Solar Grid Engineering', 'Smart Lighting Networks']
+      },
+      {
+        code: 'QAD',
+        name: 'Quality Assurance & Control',
+        description: 'Maintains field and lab-testing check routines for concrete cube compression, material purity, compaction densities, and full ISO quality compliance audits.',
+        headName: 'K. R. Rao',
+        headDesignation: 'Director of QA & Safety',
+        headPhoto: 'assets/images/officer_rao.png',
+        icon: 'verified',
+        color: '#01579B',
+        order: 4,
+        services: ['Concrete Compression Audits', 'NDT Non-Destructive Testing', 'Material Chemical Verification', 'ISO Compliance Auditing']
+      }
+    ];
+
     let seededDepts = [];
-    if (deptCount === 0) {
-      seededDepts = await Department.create([
-        { name: 'Civil Engineering Department', code: 'CED', description: 'RCC Structures & Buildings', order: 1 },
-        { name: 'Highways & Pavement Works', code: 'HPD', description: 'Roads, Highways & Bridges', order: 2 },
-        { name: 'Electrical & Electrification', code: 'EED', description: 'Substations & Lighting Networks', order: 3 },
-        { name: 'Quality Assurance & Control', code: 'QAD', description: 'Quality Checks & Materials Verification', order: 4 },
-      ]);
-      console.log('✅ Seeder: 4 Departments seeded');
-    } else {
-      seededDepts = await Department.find();
+    for (const d of departmentsToSeed) {
+      const doc = await Department.findOneAndUpdate(
+        { code: d.code },
+        { $set: d },
+        { upsert: true, new: true }
+      );
+      seededDepts.push(doc);
     }
+    console.log('✅ Seeder: 4 Departments updated/upserted with rich information');
 
     // 2. Seed Projects
     const projCount = await Project.countDocuments();

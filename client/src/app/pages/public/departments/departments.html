@@ -47,7 +47,11 @@
 
           <div class="dept-head-box">
             <div class="head-avatar">
-              <span class="material-icons-round">account_circle</span>
+              @if (d.headPhoto) {
+                <img [src]="d.headPhoto" [alt]="d.headName" class="head-avatar-img">
+              } @else {
+                <span class="material-icons-round">account_circle</span>
+              }
             </div>
             <div class="head-meta">
               <h5>{{ d.headName }}</h5>
