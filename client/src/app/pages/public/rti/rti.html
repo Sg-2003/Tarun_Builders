@@ -38,7 +38,13 @@
         <div class="pio-cards">
           @for (o of officers; track o.name) {
             <div class="pio-card">
-              <div class="pio-icon"><span class="material-icons-round">account_circle</span></div>
+              <div class="pio-icon">
+                @if (o.avatar) {
+                  <img [src]="o.avatar" [alt]="o.name" class="officer-avatar-img">
+                } @else {
+                  <span class="material-icons-round">account_circle</span>
+                }
+              </div>
               <div class="pio-meta">
                 <h3>{{ o.name }}</h3>
                 <span class="desig">{{ o.designation }}</span>

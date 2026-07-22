@@ -59,8 +59,9 @@
   .pio-icon {
     width: 44px; height: 44px; border-radius: 50%;
     background: $primary-navy; color: $white;
-    @include flex-center;
+    @include flex-center; overflow: hidden;
     .material-icons-round { font-size: 32px; }
+    .officer-avatar-img { width: 100%; height: 100%; object-fit: cover; }
   }
 
   .pio-meta {
