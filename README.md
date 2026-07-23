@@ -20,6 +20,84 @@ A production-ready government/PSU-style portal built with Angular 19, Express, a
 
 ---
 
+## Project Directory Structure
+
+```text
+Tarun-Builders/
+├── client/                     # Frontend Angular Application
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── core/           # Core Module (Singleton services, guards, interceptors)
+│   │   │   │   ├── guards/     # Authentication & Authorization Guards
+│   │   │   │   ├── interceptors/# HTTP Interceptors (JWT attaching)
+│   │   │   │   └── services/   # API/Data Services
+│   │   │   ├── layouts/        # Layout Components
+│   │   │   │   ├── admin-layout/
+│   │   │   │   └── public-layout/
+│   │   │   ├── pages/          # Feature Pages
+│   │   │   │   ├── admin/      # Admin Panel Subpages (Dashboard, Tenders, Careers, etc.)
+│   │   │   │   ├── auth/       # Authentication (Login)
+│   │   │   │   ├── public/     # Public Facing Pages (Home, About, Tenders, Careers, RTI)
+│   │   │   │   └── not-found/
+│   │   │   └── shared/         # Shared Components (Header, Footer, Navigation)
+│   │   ├── assets/             # Static Assets (Images, Logos)
+│   │   └── styles.scss         # Global SCSS Styling & Theme Rules
+│   ├── Dockerfile              # Docker Configuration for Frontend
+│   └── nginx.conf              # Nginx Configuration for serving Frontend
+├── server/                     # Backend Express Application
+│   ├── config/                 # Configurations (Database connection, Database Seeder)
+│   ├── controllers/            # Request Handlers & Business Logic
+│   ├── middleware/             # Express Middlewares (Auth check, file upload)
+│   ├── models/                 # Mongoose Database Models
+│   ├── routes/                 # Express REST API Endpoints
+│   ├── server.js               # Application Entry Point
+│   └── Dockerfile              # Docker Configuration for Backend
+├── docker-compose.yml          # Docker Compose configuration orchestrating Client & Server
+└── nginx.conf                  # Main Nginx reverse proxy configuration
+```
+
+---
+
+## Architecture & Data Flow
+
+Below is the structural diagram representing the architecture and request lifecycle of the Tarun Builders MEAN stack application:
+
+```mermaid
+graph TD
+    %% User Access
+    User([User Browser]) -->|HTTP Request| NginxProxy[Nginx Reverse Proxy: Port 80]
+    
+    %% Nginx Routing
+    NginxProxy -->|Static Assets & HTML| AngularApp[Angular 19 Frontend Client]
+    NginxProxy -->|/api/* Requests| ExpressAPI[Express Server Backend: Port 5001]
+    
+    %% Frontend Internal Structure
+    subgraph Frontend [Angular 19 Client Client App]
+        AngularApp --> AppRoutes[Router: app.routes.ts]
+        AppRoutes --> AuthGuard[Auth Guard]
+        AppRoutes --> Layouts[Layouts: Public / Admin]
+        Layouts --> Pages[Pages & Components]
+        Pages --> Services[Services: core/services]
+        Services --> AuthInterceptor[Auth Interceptor: Attaches JWT]
+    end
+    
+    %% API requests flow
+    AuthInterceptor -->|HTTP Requests| ExpressAPI
+    
+    %% Backend Internal Structure
+    subgraph Backend [Express REST API Backend]
+        ExpressAPI --> ExpressRouter[Express Router: routes/*]
+        ExpressRouter --> Middlewares[Middlewares: Auth / Upload]
+        Middlewares --> Controllers[Controllers: Request Handlers]
+        Controllers --> Models[Mongoose Models: models/*]
+    end
+    
+    %% Database Connection
+    Models -->|Mongoose Queries| MongoDB[(MongoDB Atlas Database)]
+```
+
+---
+
 ## Local Setup & Development
 
 ### 1. Install dependencies
